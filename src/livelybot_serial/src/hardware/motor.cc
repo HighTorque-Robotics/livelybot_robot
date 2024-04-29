@@ -42,9 +42,12 @@ inline int16_t motor::tqe_float2int(float in_data, motor_type motor_type)
     case motor_type::_4538:
         return (int16_t)((in_data + 0.05) / 0.00445);
     case motor_type::_5047_36:
-        return (int16_t)((in_data + 0.05253) / 0.00462);
+        // return (int16_t)((in_data + 0.05253) / 0.00462);  // 老款
+        return (int16_t)((in_data + 0.03313) / 0.004938);
     case motor_type::_5047_9:
         return (int16_t)((in_data + 0.034809) / 0.00533);
+    case motor_type::_4438_32:
+        return (int16_t)((in_data + 0.083) / 0.005584f);
     default:
         ROS_ERROR("motor type setting error");
         return int16_t();
@@ -105,13 +108,14 @@ inline float motor::pid_scale(float in_data, motor_type motor_type)
         in_data /= 0.4938f;
         break;
     case motor_type::_5047_36:
-        in_data /= 0.4652f;
+        // in_data /= 0.4652f;
+        in_data /= 0.4938f;
         break;
     case motor_type::_5047_9:
         in_data /= 0.547f;
         break;
-    case motor_type::_4438_32:  // 未测
-        in_data /= 0.5f;
+    case motor_type::_4438_32:
+        in_data /= 0.5584f;
         break;
     case motor_type::_4438_8:  // 未测
         in_data /= 0.5f;
@@ -253,11 +257,12 @@ inline float motor::tqe_int2float(int16_t in_data, motor_type type)
     case (motor_type::_4538):
         return (float)(in_data * 0.00445) - 0.05;
     case (motor_type::_5047_36):
-        return (float)(in_data * 0.00462) - 0.05253;
+        // return (float)(in_data * 0.00462) - 0.05253;  // 老款
+        return (float)(in_data * 0.004938f) - 0.03313f;
     case (motor_type::_5047_9):
         return (float)(in_data * 0.00533) - 0.034809;
     case (motor_type::_4438_32):
-        return (float)(in_data * 0.0048); // 未测
+        return (float)(in_data * 0.005584) - 0.083f;
     case (motor_type::_4438_8):
         return (float)(in_data * 0.0055); // 未测
     case (motor_type::_7136_7):
