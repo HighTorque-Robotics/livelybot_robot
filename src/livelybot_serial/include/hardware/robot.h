@@ -531,8 +531,8 @@ namespace livelybot_serial
             motor_back_t motor_back_data;
             motor_back_data = *Motors[motor_idx]->get_current_motor_state();
             pos = (motor_back_data.position - config_offset_posistion[motor_idx]) / config_slope_posistion[motor_idx];
-            vel = (motor_back_data.position - config_offset_velocity[motor_idx]) / config_slope_velocity[motor_idx];
-            torque = (motor_back_data.position - config_offset_torque[motor_idx]) / config_slope_torque[motor_idx];
+            vel = (motor_back_data.velocity - config_offset_velocity[motor_idx]) / config_slope_velocity[motor_idx];
+            torque = (motor_back_data.torque - config_offset_torque[motor_idx]) / config_slope_torque[motor_idx];
         }
 #endif
     };
