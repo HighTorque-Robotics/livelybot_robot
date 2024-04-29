@@ -55,10 +55,7 @@ namespace livelybot_serial
         };
         ~robot_node()
         {
-            for (auto &thread : rb.ser_recv_threads)
-            {
-                thread.join();
-            }
+
         }
 
         // 回调函数，每当接收到新的JointState消息时就会被调用

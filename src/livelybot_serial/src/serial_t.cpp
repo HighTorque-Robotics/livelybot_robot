@@ -35,10 +35,7 @@ int main(int argc, char **argv)
         r.sleep();
     }
 
-    for (auto &thread : rb.ser_recv_threads)
-    {
-        thread.join();
-    }
+
 
     // ========弃用=========== multithread send =====================
     // rb.init_mutithread_send();

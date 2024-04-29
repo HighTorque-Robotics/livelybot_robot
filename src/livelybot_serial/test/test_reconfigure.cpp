@@ -43,10 +43,7 @@ void excu()
     }
 
 
-    for (auto &thread : rb.ser_recv_threads)
-    {
-        thread.join();
-    }
+
 }
 
 int main(int argc, char **argv)

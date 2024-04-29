@@ -143,9 +143,6 @@ int main(int argc, char **argv)
         // writedata2file(float_vec,"//home//sunteng//control_ws//src//livelybot_robot//src//livelybot_serial//data.txt");
         r.sleep();
     }
-    for (auto &thread : rb.ser_recv_threads)
-    {
-        thread.join();
-    }
+
     return 0;
 }

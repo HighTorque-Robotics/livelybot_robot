@@ -158,9 +158,15 @@ namespace livelybot_serial
         }
         ~robot()
         {
+            for (auto &m : Motors)
+            {
+                m->fresh_cmd_int16(0, 0, 0, 0, 0, 0, 0, 0, 0);
+            }
+            motor_send_2();
             for (auto &thread : ser_recv_threads)
             {
-                thread.join();
+                if (thread.joinable())
+                    thread.join();
             }
         }
 
