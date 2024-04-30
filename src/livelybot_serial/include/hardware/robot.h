@@ -5,10 +5,12 @@
 #include "ros/ros.h"
 #include <thread>
 #include <initializer_list>
+
 #define DYNAMIC_CONFIG_ROBOT
 #ifdef DYNAMIC_CONFIG_ROBOT
 #include <dynamic_reconfigure/server.h>
 #include <livelybot_serial/robot_dynamic_config_20Config.h>
+#include <libserialport.h>
 #endif
 namespace livelybot_serial
 {
@@ -21,7 +23,7 @@ namespace livelybot_serial
         std::vector<canboard> CANboards;
         std::vector<std::string> str;
         std::vector<lively_serial *> ser;
-        float SDK_version2 = 2.5; // SDK版本
+        float SDK_version2 = 2.6; // SDK版本
 #ifdef DYNAMIC_CONFIG_ROBOT
         std::vector<double> config_slope_posistion;
         std::vector<double> config_offset_posistion;
@@ -133,7 +135,7 @@ namespace livelybot_serial
                 cp->puch_motor(&Motors);
             }
             set_port_motor_num(); // 设置通道上挂载的电机数，并获取主控板固件版本号
-            // chevk_motor_connection();  // 检测电机连接是否正常
+            chevk_motor_connection();  // 检测电机连接是否正常
 
             ROS_INFO("\033[1;32mThe robot has %ld motors\033[0m", Motors.size());
             ROS_INFO("robot init");
@@ -185,12 +187,104 @@ namespace livelybot_serial
                 cb.motor_send_2();
             }
         }
+
+        int serial_pid_vid(const char *name, int *pid, int *vid)
+        {
+            int r = 0;
+            struct sp_port *port;
+            
+            sp_get_port_by_name(name, &port);
+            sp_open(port, SP_MODE_READ);
+            if (sp_get_port_usb_vid_pid(port, vid, pid) != SP_OK) 
+            {
+                r = 1;
+            } 
+            std::cout << "Port: " << name << ", PID: 0x" << std::hex << *pid << ", VID: 0x" << *vid << std::dec << std::endl;
+
+            // 关闭端口
+            sp_close(port);
+            sp_free_port(port);
+
+            return r;
+        }
+
+        int serial_pid_vid(const char *name)
+        {
+            int pid, vid;
+            int r = 0;
+            struct sp_port *port;
+            
+            sp_get_port_by_name(name, &port);
+            sp_open(port, SP_MODE_READ);
+            if (sp_get_port_usb_vid_pid(port, &vid, &pid) != SP_OK) 
+            {
+                r = -1;
+            } 
+            else 
+            {
+                switch (vid)
+                {
+                case (0xCAF1):
+                    r = 1;
+                    break;
+                case (0xCAF2):
+                    r = 2;
+                    break;
+                default:
+                    r = -2;
+                    break;
+                }
+            }
+            // std::cout << "Port: " << name << ", PID: 0x" << std::hex << pid << ", VID: 0x" << vid << std::dec << std::endl;
+
+            // 关闭端口
+            sp_close(port);
+            sp_free_port(port);
+
+            return r;
+        }
+
         void init_ser()
         {
-            for (size_t i = 0; i < 4; i++)
+            for (size_t i = 0; i < 4*CANboard_num; i++)
             {
                 str.push_back(Serial_Type + std::to_string(i));
+                std::cout << str[i] << " " << serial_pid_vid(str[i].c_str()) << std::endl;
             }
+
+            if (CANboard_num > 1)
+            {
+                std::vector<std::string> str1, str2;
+                for (size_t i = 0; i < 8; i++)
+                {   
+                    int vid = serial_pid_vid(str[i].c_str());
+                    if (vid == 1)
+                    {
+                        str1.push_back(str[i]);
+                    }
+                    else if (vid == 2)
+                    {
+                        str2.push_back(str[i]);
+                    }
+                    else
+                    {
+                        ROS_ERROR("Failed to open serial port.");
+                        exit(-1);
+                    }
+                }
+
+                for (size_t i = 0; i < 4; i++)
+                {
+                    std::swap(str[i], str1[i]);
+                    std::swap(str[i + 4], str2[i]);
+                }
+            }
+            std::cout << std::endl;
+            for (int i = 0; i < 4*CANboard_num; i++)
+            {
+                std::cout << str[i] << " " << serial_pid_vid(str[i].c_str()) << std::endl;
+            }
+            
             for (size_t i = 0; i < str.size(); i++)
             {
                 lively_serial *s = new lively_serial(&str[i], Seial_baudrate, 1);

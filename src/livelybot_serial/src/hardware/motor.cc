@@ -132,10 +132,12 @@ inline int16_t motor::int16_limit(int32_t data)
 {
     if (data >= 32700)
     {
+        ROS_INFO("\033[1;32mPID output has reached the saturation limit.\033[0m");
         return (int16_t)32700;
     }
     else if (data <= -32700)
     {
+        ROS_INFO("\033[1;32mPID output has reached the saturation limit.\033[0m");
         return (int16_t)-32700;
     }
 
@@ -495,8 +497,6 @@ void motor::pos_vel_tqe_kp_kd(float position, float velocity, float torque, floa
     p_cdc_tx_message->data.pos_val_tqe_rpd[iid].pos = pos_float2int(position, pos_vel_type);
     p_cdc_tx_message->data.pos_val_tqe_rpd[iid].val = vel_float2int(velocity, pos_vel_type);
     p_cdc_tx_message->data.pos_val_tqe_rpd[iid].tqe = tqe_float2int(torque, type_);
-
-    ROS_INFO("%f, %d\n", kp, kp_float2int(kp, pos_vel_type, type_));
     p_cdc_tx_message->data.pos_val_tqe_rpd[iid].rkp = kp_float2int(kp, pos_vel_type, type_); 
     p_cdc_tx_message->data.pos_val_tqe_rpd[iid].rkd = kd_float2int(kd, pos_vel_type, type_);
 }

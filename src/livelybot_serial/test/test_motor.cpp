@@ -24,19 +24,17 @@ int main(int argc, char **argv)
         {
             if(i < (int)Robot_motors/2)
             {
-                // rb.Motors[i]->fresh_cmd_int16(angle, 0.0, 0.0, 15.0, 0, 0.1, 0, 0, 0);
-                rb.Motors[i]->pos_vel_MAXtqe(angle, angle, 10);
+                rb.Motors[i]->pos_vel_MAXtqe(angle, angle/2, 10);  // 这里为了方便出厂测试，直接使用了 pos_vel_MAXtqe 函数（不推荐）
             }
             else
             {
-                // rb.Motors[i]->fresh_cmd_int16(-angle, 0.0, 0.0, 15.0, 0, 0.1, 0, 0, 0);
-                rb.Motors[i]->pos_vel_MAXtqe(-angle, angle, 10);
+                rb.Motors[i]->pos_vel_MAXtqe(-angle, angle/2, 10);  // 这里为了方便出厂测试，直接使用了 pos_vel_MAXtqe 函数（不推荐）
             }
             i++;
         }
         i = 0;
         cont++;
-        if(cont==200)
+        if(cont==250)
         {
             cont = 0;
             angle*=-1;

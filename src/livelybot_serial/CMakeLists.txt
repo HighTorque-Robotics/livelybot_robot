@@ -33,10 +33,14 @@ catkin_package(
     DEPENDS rt pthread
     CATKIN_DEPENDS roscpp std_msgs livelybot_msg serial dynamic_reconfigure
 )
+find_library(SERIALPORT_LIBRARY serialport)
+if(NOT SERIALPORT_LIBRARY)
+  message(FATAL_ERROR "libserialport not found")
+endif()
 add_library(${PROJECT_NAME} ${serial_SRCS})
 add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
 
-target_link_libraries(${PROJECT_NAME} rt pthread)
+target_link_libraries(${PROJECT_NAME} rt pthread ${SERIALPORT_LIBRARY})
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
@@ -44,35 +48,35 @@ include_directories(
 # test
 add_executable(lvbot_test src/serial_t.cpp ${serial_SRCS})
 add_dependencies(lvbot_test ${PROJECT_NAME})
-target_link_libraries(lvbot_test ${catkin_LIBRARIES})
+target_link_libraries(lvbot_test ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 
 add_executable(ik_run src/ik_run.cpp ${serial_SRCS})
 add_dependencies(ik_run ${PROJECT_NAME})
-target_link_libraries(ik_run ${catkin_LIBRARIES})
+target_link_libraries(ik_run ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 
 add_executable(robot_node_ src/robot_node.cpp ${serial_SRCS})
 add_dependencies(robot_node_ ${PROJECT_NAME})
-target_link_libraries(robot_node_ ${catkin_LIBRARIES})
+target_link_libraries(robot_node_ ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 
 add_executable(test_motor test/test_motor.cpp ${serial_SRCS})
 add_dependencies(test_motor ${PROJECT_NAME})
-target_link_libraries(test_motor ${catkin_LIBRARIES})
+target_link_libraries(test_motor ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 
 add_executable(test_reset_zero test/test_reset_zero.cpp ${serial_SRCS})
 add_dependencies(test_reset_zero ${PROJECT_NAME})
-target_link_libraries(test_reset_zero ${catkin_LIBRARIES})
+target_link_libraries(test_reset_zero ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 
 add_executable(test_feedback test/test_feedback.cpp ${serial_SRCS})
 add_dependencies(test_feedback ${PROJECT_NAME})
-target_link_libraries(test_feedback ${catkin_LIBRARIES})
+target_link_libraries(test_feedback ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 
 add_executable(test_motor_run test/test_motor_run.cpp ${serial_SRCS})
 add_dependencies(test_motor_run ${PROJECT_NAME})
-target_link_libraries(test_motor_run ${catkin_LIBRARIES})
+target_link_libraries(test_motor_run ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 
 add_executable(test_reconfigure test/test_reconfigure.cpp ${serial_SRCS})
 add_dependencies(test_reconfigure ${PROJECT_NAME})
-target_link_libraries(test_reconfigure ${catkin_LIBRARIES})
+target_link_libraries(test_reconfigure ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 
 install(TARGETS ${PROJECT_NAME}
     ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}

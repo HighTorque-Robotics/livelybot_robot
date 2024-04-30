@@ -8,6 +8,13 @@ git clone --recurse-submodules https://github.com/HBUTHUANGPX/livelybot_robot.gi
 不出意外的，catkin build编译需要进行两次，这是一个小bug，目前不会去修复，报错仅仅只会在第一次编译时出现。 编译完成后即可。
 
 
+
+如编译第二次也报错请使用指令安装库：
+
+`sudo apt-get install libserialport0 libserialport-dev`
+
+
+
 3.依赖：
 (1)Ubuntu 20.04 LTS
 (2)ros-noetic
