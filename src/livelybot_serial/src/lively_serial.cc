@@ -105,6 +105,7 @@ void lively_serial::recv_1for6_42()
                     {
                         case (MODE_RESET_ZERO):
                         case (MODE_CONF_WRITE):
+                        case (MODE_CONF_LOAD):
                             *p_mode_flag = SOF.cmd;
                             for (int i = 0; i < SOF.data_len; i++)
                             {

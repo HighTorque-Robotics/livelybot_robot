@@ -23,7 +23,7 @@ int main(int argc, char **argv)
         {   
             // printf("id %d pos %f vel %f tqe %f\n", m->get_current_motor_state()->ID, m->get_current_motor_state()->position, m->get_current_motor_state()->velocity, m->get_current_motor_state()->torque);
             printf("%4.2f ", m->get_current_motor_state()->position);
-            m->fresh_cmd_int16(0, 0, 0, 5, 0, 0, 0.1, 0, 0.5);
+            m->fresh_cmd_int16(0, 0, 0, 5.0, 0, 0, 0.1, 0, 0.5);
         }
         printf("\n");
         rb.motor_send_2();

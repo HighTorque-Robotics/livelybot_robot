@@ -165,7 +165,6 @@ inline int16_t motor::kp_float2int(float in_data, uint8_t type, motor_type motor
         tqe = int16_t();
         break;
     }
-
     return int16_limit(tqe);
 }
 

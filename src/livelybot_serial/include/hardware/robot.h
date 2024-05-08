@@ -23,7 +23,7 @@ namespace livelybot_serial
         std::vector<canboard> CANboards;
         std::vector<std::string> str;
         std::vector<lively_serial *> ser;
-        float SDK_version2 = 2.6; // SDK版本
+        float SDK_version2 = 2.7; // SDK版本
 #ifdef DYNAMIC_CONFIG_ROBOT
         std::vector<double> config_slope_posistion;
         std::vector<double> config_offset_posistion;
@@ -402,6 +402,14 @@ namespace livelybot_serial
                 int port_id = Motors[motor]->get_motor_belong_canport() - 1;
                 int motor_id = Motors[motor]->get_motor_id();
                 ROS_INFO("%d, %d, %d\n", board_id, port_id, motor_id);
+
+                if (CANPorts[port_id]->set_conf_load(motor_id) != 0)
+                {
+                    ROS_ERROR("Motor %d settings restoration failed.", motor);
+                    return;
+                }
+                
+                ROS_INFO("Motor %d settings have been successfully restored. Initiating zero position reset.", motor);
                 if (CANPorts[port_id]->set_reset_zero(motor_id) == 0)
                 {
                     ROS_INFO("Motor %d reset to zero position successfully, awaiting settings save.null", motor);

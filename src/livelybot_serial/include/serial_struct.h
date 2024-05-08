@@ -29,6 +29,7 @@
 #define  MODE_BRAKE                 0X04  // 电机刹车
 #define  MODE_SET_NUM               0X05  // 设置通道电机数量，并查询固件版本
 #define  MODE_MOTOR_STATE           0X06  // 电机状态
+#define  MODE_CONF_LOAD             0X07  // 还原设置（从flash重新加载设置）
 
 
 /* struct */

@@ -73,6 +73,11 @@ public:
     {
         for (canport *c : CANport)
         {
+            if (c->set_conf_load() != 0)
+            {
+                return;
+            }
+            ros::Duration(1).sleep();
             if (c->set_reset_zero() == 0)
             {
                 c->set_conf_write();
