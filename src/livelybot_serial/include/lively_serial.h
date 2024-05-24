@@ -48,11 +48,11 @@ public:
         }
         catch (const std::exception &e)
         {
-            ROS_ERROR_STREAM("Unable to open port "); // 打开串口失败，打印信息
+            ROS_ERROR_STREAM("Motor Unable to open port "); // 打开串口失败，打印信息
         }
         if (_ser.isOpen())
         {
-            ROS_INFO_STREAM("IMU Serial Port initialized."); // 成功打开串口，打印信息
+            ROS_INFO_STREAM("Motor Serial Port initialized."); // 成功打开串口，打印信息
         }
         else
         {

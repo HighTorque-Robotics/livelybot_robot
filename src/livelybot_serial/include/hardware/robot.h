@@ -5,12 +5,15 @@
 #include "ros/ros.h"
 #include <thread>
 #include <initializer_list>
+#include <fstream>
 
 #define DYNAMIC_CONFIG_ROBOT
 #ifdef DYNAMIC_CONFIG_ROBOT
 #include <dynamic_reconfigure/server.h>
 #include <livelybot_serial/robot_dynamic_config_20Config.h>
 #include <libserialport.h>
+#include <dirent.h>
+#include <algorithm>
 #endif
 namespace livelybot_serial
 {
@@ -23,7 +26,7 @@ namespace livelybot_serial
         std::vector<canboard> CANboards;
         std::vector<std::string> str;
         std::vector<lively_serial *> ser;
-        float SDK_version2 = 2.7; // SDK版本
+        float SDK_version2 = 2.8; // SDK版本
 #ifdef DYNAMIC_CONFIG_ROBOT
         std::vector<double> config_slope_posistion;
         std::vector<double> config_offset_posistion;
@@ -244,12 +247,54 @@ namespace livelybot_serial
             return r;
         }
 
+        std::vector<std::string> list_serial_ports(const std::string& full_prefix) 
+        {
+            std::string base_path = full_prefix.substr(0, full_prefix.rfind('/') + 1);
+            std::string prefix = full_prefix.substr(full_prefix.rfind('/') + 1);
+            std::vector<std::string> serial_ports;
+            DIR *directory;
+            struct dirent *entry;
+
+            directory = opendir(base_path.c_str());
+            if (!directory)
+            {
+                std::cerr << "Could not open the directory " << base_path << std::endl;
+                return serial_ports; // Return an empty vector if cannot open directory
+            }
+
+            while ((entry = readdir(directory)) != NULL)
+            {
+                std::string entryName = entry->d_name;
+                if (entryName.find(prefix) == 0)
+                { // Check if the entry name starts with the given prefix
+                    serial_ports.push_back(base_path + entryName);
+                }
+            }
+
+            closedir(directory);
+
+            // Sort the vector in ascending order
+            std::sort(serial_ports.begin(), serial_ports.end());
+
+            return serial_ports;
+        }
+
         void init_ser()
         {
-            for (size_t i = 0; i < 4*CANboard_num; i++)
+            std::vector<std::string> ports = list_serial_ports(Serial_Type);
+            for (const std::string& port : ports) 
             {
-                str.push_back(Serial_Type + std::to_string(i));
-                std::cout << str[i] << " " << serial_pid_vid(str[i].c_str()) << std::endl;
+                if (serial_pid_vid(port.c_str()) > 0)
+                {
+                    ROS_INFO("Serial Port%ld = %s", str.size(), port.c_str());
+                    str.push_back(port);
+                }
+            }
+
+            if ((str.size() < 4 * CANboard_num))
+            {
+                ROS_ERROR("Cannot find the motor serial port, please check if the USB connection is normal.");
+                exit(-1);
             }
 
             if (CANboard_num > 1)
