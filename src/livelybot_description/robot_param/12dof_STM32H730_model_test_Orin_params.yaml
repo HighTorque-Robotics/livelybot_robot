@@ -3,8 +3,8 @@ robot:
   robot_name: "HuangPx HECTOR"
   arm_dof: 0
   leg_dof: 6
-  Serial_Type: "/dev/ttyUSB"  # stm32的
-  #Serial_Type: "/dev/ttyACM"  # 5361的
+  # Serial_Type: "/dev/ttyUSB"  # stm32的
+  Serial_Type: "/dev/ttyACM"  # 5361的
   Seial_baudrate: 4000000
   Serial_allocate: "1for2" #一个ft4232带2块CANboard,此时默认一块板子引出2个串口,一个串口与一个CAN口相对应
                 #  "1for1"  一个ft4232带1块CANboard,此时默认一块板子引出4个串口,一个串口与一个CAN口相对应

@@ -6,21 +6,21 @@
 #include "crc/crc8.h"
 
 
-#define  CDC_TR_MESSAGE_DATA_LEN  64
+#define  CDC_TR_MESSAGE_DATA_LEN  256
 
 
-#define  MODE_POS_VEL_KP_KI_KD      0X73
-#define  MODE_POS_VEL_KP_KD         0X74
-#define  MODE_POS_VEL_TQE_KP_KD     0X75
-#define  MODE_POS_VEL_ACC           0X76
-#define  MODE_POS_VEL_RKP_RKD       0X77
-#define  MODE_POS_VEL_TQE_RKP_RKD   0X78
-#define  MODE_POS_VEL_TQE           0X79
-#define  MODE_CURRENT               0X7A
-#define  MODE_VOLTAGE               0X7B
-#define  MODE_TORQUE                0X7C
-#define  MODE_POSITION              0X7D
-#define  MODE_VELOCITY              0X7E
+#define  MODE_POSITION              0X80
+#define  MODE_VELOCITY              0X81
+#define  MODE_TORQUE                0X82
+#define  MODE_VOLTAGE               0X83
+#define  MODE_CURRENT               0X84
+
+#define  MODE_POS_VEL_TQE           0X90
+#define  MODE_POS_VEL_TQE_KP_KD     0X93
+#define  MODE_POS_VEL_TQE_KP_KI_KD  0X98
+#define  MODE_POS_VEL_KP_KD         0X9E
+#define  MODE_POS_VEL_TQE_RKP_RKD   0XA3
+#define  MODE_POS_VEL_RKP_RKD       0XA8
 
 
 #define  MODE_RESET_ZERO            0X01  // 重置电机零位

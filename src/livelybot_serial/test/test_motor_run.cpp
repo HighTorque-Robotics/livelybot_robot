@@ -9,7 +9,7 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "test_motor");
     ros::NodeHandle n;
-    ros::Rate r(100);
+    ros::Rate r(500);
     livelybot_serial::robot rb;
     ROS_INFO("\033[1;32mSTART\033[0m");
     // ========================== singlethread send =====================
@@ -21,11 +21,12 @@ int main(int argc, char **argv)
         /////////////////////////send
         for (motor *m : rb.Motors)
         {   
-            // printf("id %d pos %f vel %f tqe %f\n", m->get_current_motor_state()->ID, m->get_current_motor_state()->position, m->get_current_motor_state()->velocity, m->get_current_motor_state()->torque);
-            printf("%4.2f ", m->get_current_motor_state()->position);
-            m->fresh_cmd_int16(0, 0, 0, 5.0, 0, 0, 0.1, 0, 0.5);
+            // ROS_INFO("id %d pos %f vel %f tqe %f\n", m->get_current_motor_state()->ID, m->get_current_motor_state()->position, m->get_current_motor_state()->velocity, m->get_current_motor_state()->torque);
+            // printf("%4.2f ", m->get_current_motor_state()->position);
+            // m->fresh_cmd_int16(0, 0, 0, 5.0, 0, 0, 0.1, 0, 0.5);
+            m->fresh_cmd_int16(0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
-        printf("\n");
+        // ROS_INFO(" ");
         rb.motor_send_2();
         
         r.sleep();

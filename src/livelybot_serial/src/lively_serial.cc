@@ -14,11 +14,11 @@ void lively_serial::recv()
         if (*(uint8_t *)&_result[0] == 0xFD && *(uint8_t *)&_result[1] == 0xFE)
         {
             _result = _ser.read(sizeof(cdc_acm_tx_message_t) - 2);
-            /*for (size_t i = 0; i < _result.size(); i++)
-            {
-                printf("0x%02X ",*(uint8_t *)&_result[i]);
-            }
-            std::cout<<std::endl;*/
+            // for (size_t i = 0; i < _result.size(); i++)
+            // {
+            //     printf("0x%02X ",*(uint8_t *)&_result[i]);
+            // }
+            // std::cout<<std::endl;
             memcpy(&cdc_acm_tx_message.motor_back_raw, (const void *)&_result[0], sizeof(cdc_acm_tx_message_t) - 2);
             // std::cout<< (int)cdc_acm_tx_message.motor_back.ID<<std::endl;
 
@@ -100,6 +100,7 @@ void lively_serial::recv_1for6_42()
                     //     printf("0x%02X ", cdc_rx_message_data.data[i]);
                     // }
                     // printf("\n");
+                    // ROS_INFO("AA");
 
                     switch (SOF.cmd)
                     {

@@ -458,24 +458,24 @@ void motor::pos_vel_rkp_rkd(float position, float velocity, float rKp, float rKd
     p_cdc_tx_message->data.pos_val_rpd[iid].rkd = rkd_float2int(rKd, type_);
 }
 
-void motor::pos_val_acc(float position, float velocity, float acc)
-{
-    if (p_cdc_tx_message->head.s.cmd != MODE_POS_VEL_ACC)
-    {
-        p_cdc_tx_message->head.s.head = 0xF7;
-        p_cdc_tx_message->head.s.cmd = MODE_POS_VEL_ACC;
-        p_cdc_tx_message->head.s.len = id_max * sizeof(motor_pos_val_tqe_rpd_s);
-        for (uint8_t i = 0; i < id_max; i++)
-        {
-            p_cdc_tx_message->data.pos_val_acc[i].pos = 0x8000;
-            p_cdc_tx_message->data.pos_val_acc[i].val = 0x0000;
-            p_cdc_tx_message->data.pos_val_acc[i].acc = 0x0000;
-        }
-    }
-    p_cdc_tx_message->data.pos_val_acc[iid].pos = pos_float2int(position, pos_vel_type);
-    p_cdc_tx_message->data.pos_val_acc[iid].val = vel_float2int(velocity, pos_vel_type);
-    p_cdc_tx_message->data.pos_val_acc[iid].acc = (int16_t)(acc * 1000);
-}
+// void motor::pos_val_acc(float position, float velocity, float acc)
+// {
+//     if (p_cdc_tx_message->head.s.cmd != MODE_POS_VEL_ACC)
+//     {
+//         p_cdc_tx_message->head.s.head = 0xF7;
+//         p_cdc_tx_message->head.s.cmd = MODE_POS_VEL_ACC;
+//         p_cdc_tx_message->head.s.len = id_max * sizeof(motor_pos_val_tqe_rpd_s);
+//         for (uint8_t i = 0; i < id_max; i++)
+//         {
+//             p_cdc_tx_message->data.pos_val_acc[i].pos = 0x8000;
+//             p_cdc_tx_message->data.pos_val_acc[i].val = 0x0000;
+//             p_cdc_tx_message->data.pos_val_acc[i].acc = 0x0000;
+//         }
+//     }
+//     p_cdc_tx_message->data.pos_val_acc[iid].pos = pos_float2int(position, pos_vel_type);
+//     p_cdc_tx_message->data.pos_val_acc[iid].val = vel_float2int(velocity, pos_vel_type);
+//     p_cdc_tx_message->data.pos_val_acc[iid].acc = (int16_t)(acc * 1000);
+// }
 
 void motor::pos_vel_tqe_kp_kd(float position, float velocity, float torque, float kp, float kd)
 {

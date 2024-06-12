@@ -22,7 +22,7 @@ private:
     cdc_tr_message_s cdc_tr_message;
     int id_max = 0;
     int control_type = 0;
-    int motor_num_max = 0;
+    int motor_num_max = 30;
     float port_version = 0.0f;
     std::unordered_set<int> motors_id;
     int mode_flag = 0;
@@ -40,40 +40,6 @@ public:
         else
         {
             ROS_ERROR("Faile to get params motor_num");
-        }
-
-        if (n.getParam("robot/control_type", control_type))
-        {
-            // ROS_INFO("Got params ontrol_type: %f",SDK_version);
-            
-            switch (control_type)
-            {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-                motor_num_max = 30;
-                break;
-            case 6:
-                motor_num_max = 10;
-                break;
-            case 7:
-            case 9:
-                motor_num_max = 6;
-                break;
-            case 8:
-            case 10:
-                motor_num_max = 15;
-                break;
-            default:
-                ROS_ERROR("Control type error");
-                break;
-            }
-        }
-        else
-        {
-            ROS_ERROR("Faile to get params ontrol_type");
         }
 
         if (motor_num_max < motor_num)
@@ -98,7 +64,6 @@ public:
             {
                 ROS_ERROR("Faile to get params id");
             }
-            // ROS_INFO("id %d", port_motor_id[i - 1]);
         }
         for (size_t i = 1; i <= motor_num; i++)
         {
