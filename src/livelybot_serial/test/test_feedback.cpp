@@ -81,11 +81,6 @@ int main(int argc, char **argv)
             {
                 feedback_.data.push_back((kp_mode_pos-motor.position)*kp_mode_kp+(kd_mode_vel-motor.velocity)*kd_mode_kd+ff_);
             }
-            // ROS_INFO_STREAM(" ID: " << motor.ID << 
-            //                 " Pos: " << motor.position <<
-            //                 " torque: " << motor.torque<<
-            //                 " type: " << motor_name[static_cast<int>(rb.Motors[idx++]->get_motor_enum_type())]
-            //                 );
         }
         pub.publish(feedback_);
         

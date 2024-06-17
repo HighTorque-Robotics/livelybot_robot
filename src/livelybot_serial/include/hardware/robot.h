@@ -140,6 +140,8 @@ namespace livelybot_serial
             set_port_motor_num(); // 设置通道上挂载的电机数，并获取主控板固件版本号
             chevk_motor_connection();  // 检测电机连接是否正常
 
+            ros::Duration(5.0).sleep();
+
             ROS_INFO("\033[1;32mThe robot has %ld motors\033[0m", Motors.size());
             ROS_INFO("robot init");
             // for (motor m:Motors)
@@ -427,7 +429,7 @@ namespace livelybot_serial
                     ROS_ERROR("CANboard(%d) CANport(%d) id(%d) Motor connection disconnected!!!", board[i], port[i], id[i]);
                 }
                 // exit(-1);
-                ros::Duration(5).sleep();
+                ros::Duration(1).sleep();
             }
         }
 

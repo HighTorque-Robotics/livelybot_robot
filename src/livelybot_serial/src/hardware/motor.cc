@@ -328,7 +328,7 @@ void motor::position(float position)
         }
     }
 
-    p_cdc_tx_message->data.position[iid] = pos_float2int(position, pos_vel_type);
+    p_cdc_tx_message->data.position[MEM_INDEX_ID(id)] = pos_float2int(position, pos_vel_type);
 }
 
 void motor::velocity(float velocity)
@@ -344,7 +344,7 @@ void motor::velocity(float velocity)
         }
     }
 
-    p_cdc_tx_message->data.velocity[iid] = vel_float2int(velocity, pos_vel_type);
+    p_cdc_tx_message->data.velocity[MEM_INDEX_ID(id)] = vel_float2int(velocity, pos_vel_type);
 }
 
 void motor::torque(float torque)
@@ -360,7 +360,7 @@ void motor::torque(float torque)
         }
     }
 
-    p_cdc_tx_message->data.torque[iid] = tqe_float2int(torque, type_);
+    p_cdc_tx_message->data.torque[MEM_INDEX_ID(id)] = tqe_float2int(torque, type_);
 }
 
 void motor::voltage(float voltage)
@@ -376,7 +376,7 @@ void motor::voltage(float voltage)
         }
     }
 
-    p_cdc_tx_message->data.voltage[iid] = (int16_t)(voltage * 10);
+    p_cdc_tx_message->data.voltage[MEM_INDEX_ID(id)] = (int16_t)(voltage * 10);
 }
 
 void motor::current(float current)
@@ -392,7 +392,7 @@ void motor::current(float current)
         }
     }
 
-    p_cdc_tx_message->data.current[iid] = (int16_t)(current * 10);
+    p_cdc_tx_message->data.current[MEM_INDEX_ID(id)] = (int16_t)(current * 10);
 }
 
 void motor::pos_vel_MAXtqe(float position, float velocity, float torque_max)
@@ -409,9 +409,9 @@ void motor::pos_vel_MAXtqe(float position, float velocity, float torque_max)
             p_cdc_tx_message->data.pos_val_tqe[i].tqe = 0x0000;
         }
     }
-    p_cdc_tx_message->data.pos_val_tqe[iid].pos = pos_float2int(position, pos_vel_type);
-    p_cdc_tx_message->data.pos_val_tqe[iid].val = vel_float2int(velocity, pos_vel_type);
-    p_cdc_tx_message->data.pos_val_tqe[iid].tqe = tqe_float2int(torque_max, type_);
+    p_cdc_tx_message->data.pos_val_tqe[MEM_INDEX_ID(id)].pos = pos_float2int(position, pos_vel_type);
+    p_cdc_tx_message->data.pos_val_tqe[MEM_INDEX_ID(id)].val = vel_float2int(velocity, pos_vel_type);
+    p_cdc_tx_message->data.pos_val_tqe[MEM_INDEX_ID(id)].tqe = tqe_float2int(torque_max, type_);
 }
 
 void motor::pos_vel_tqe_rkp_rkd(float position, float velocity, float torque, float rKp, float rKd)
@@ -430,11 +430,11 @@ void motor::pos_vel_tqe_rkp_rkd(float position, float velocity, float torque, fl
             p_cdc_tx_message->data.pos_val_tqe_rpd[i].rkd = 0x0000;
         }
     }
-    p_cdc_tx_message->data.pos_val_tqe_rpd[iid].pos = pos_float2int(position, pos_vel_type);
-    p_cdc_tx_message->data.pos_val_tqe_rpd[iid].val = vel_float2int(velocity, pos_vel_type);
-    p_cdc_tx_message->data.pos_val_tqe_rpd[iid].tqe = tqe_float2int(torque, type_);
-    p_cdc_tx_message->data.pos_val_tqe_rpd[iid].rkp = rkp_float2int(rKp, type_);
-    p_cdc_tx_message->data.pos_val_tqe_rpd[iid].rkd = rkd_float2int(rKd, type_);
+    p_cdc_tx_message->data.pos_val_tqe_rpd[MEM_INDEX_ID(id)].pos = pos_float2int(position, pos_vel_type);
+    p_cdc_tx_message->data.pos_val_tqe_rpd[MEM_INDEX_ID(id)].val = vel_float2int(velocity, pos_vel_type);
+    p_cdc_tx_message->data.pos_val_tqe_rpd[MEM_INDEX_ID(id)].tqe = tqe_float2int(torque, type_);
+    p_cdc_tx_message->data.pos_val_tqe_rpd[MEM_INDEX_ID(id)].rkp = rkp_float2int(rKp, type_);
+    p_cdc_tx_message->data.pos_val_tqe_rpd[MEM_INDEX_ID(id)].rkd = rkd_float2int(rKd, type_);
 }
 
 void motor::pos_vel_rkp_rkd(float position, float velocity, float rKp, float rKd)
@@ -452,10 +452,10 @@ void motor::pos_vel_rkp_rkd(float position, float velocity, float rKp, float rKd
             p_cdc_tx_message->data.pos_val_rpd[i].rkd = 0x0000;
         }
     }
-    p_cdc_tx_message->data.pos_val_rpd[iid].pos = pos_float2int(position, pos_vel_type);
-    p_cdc_tx_message->data.pos_val_rpd[iid].val = vel_float2int(velocity, pos_vel_type);
-    p_cdc_tx_message->data.pos_val_rpd[iid].rkp = rkp_float2int(rKp, type_);
-    p_cdc_tx_message->data.pos_val_rpd[iid].rkd = rkd_float2int(rKd, type_);
+    p_cdc_tx_message->data.pos_val_rpd[MEM_INDEX_ID(id)].pos = pos_float2int(position, pos_vel_type);
+    p_cdc_tx_message->data.pos_val_rpd[MEM_INDEX_ID(id)].val = vel_float2int(velocity, pos_vel_type);
+    p_cdc_tx_message->data.pos_val_rpd[MEM_INDEX_ID(id)].rkp = rkp_float2int(rKp, type_);
+    p_cdc_tx_message->data.pos_val_rpd[MEM_INDEX_ID(id)].rkd = rkd_float2int(rKd, type_);
 }
 
 // void motor::pos_val_acc(float position, float velocity, float acc)
@@ -472,9 +472,9 @@ void motor::pos_vel_rkp_rkd(float position, float velocity, float rKp, float rKd
 //             p_cdc_tx_message->data.pos_val_acc[i].acc = 0x0000;
 //         }
 //     }
-//     p_cdc_tx_message->data.pos_val_acc[iid].pos = pos_float2int(position, pos_vel_type);
-//     p_cdc_tx_message->data.pos_val_acc[iid].val = vel_float2int(velocity, pos_vel_type);
-//     p_cdc_tx_message->data.pos_val_acc[iid].acc = (int16_t)(acc * 1000);
+//     p_cdc_tx_message->data.pos_val_acc[MEM_INDEX_ID(id)].pos = pos_float2int(position, pos_vel_type);
+//     p_cdc_tx_message->data.pos_val_acc[MEM_INDEX_ID(id)].val = vel_float2int(velocity, pos_vel_type);
+//     p_cdc_tx_message->data.pos_val_acc[MEM_INDEX_ID(id)].acc = (int16_t)(acc * 1000);
 // }
 
 void motor::pos_vel_tqe_kp_kd(float position, float velocity, float torque, float kp, float kd)
@@ -493,11 +493,11 @@ void motor::pos_vel_tqe_kp_kd(float position, float velocity, float torque, floa
             p_cdc_tx_message->data.pos_val_tqe_rpd[i].rkd = 0x0000;
         }
     }
-    p_cdc_tx_message->data.pos_val_tqe_rpd[iid].pos = pos_float2int(position, pos_vel_type);
-    p_cdc_tx_message->data.pos_val_tqe_rpd[iid].val = vel_float2int(velocity, pos_vel_type);
-    p_cdc_tx_message->data.pos_val_tqe_rpd[iid].tqe = tqe_float2int(torque, type_);
-    p_cdc_tx_message->data.pos_val_tqe_rpd[iid].rkp = kp_float2int(kp, pos_vel_type, type_); 
-    p_cdc_tx_message->data.pos_val_tqe_rpd[iid].rkd = kd_float2int(kd, pos_vel_type, type_);
+    p_cdc_tx_message->data.pos_val_tqe_rpd[MEM_INDEX_ID(id)].pos = pos_float2int(position, pos_vel_type);
+    p_cdc_tx_message->data.pos_val_tqe_rpd[MEM_INDEX_ID(id)].val = vel_float2int(velocity, pos_vel_type);
+    p_cdc_tx_message->data.pos_val_tqe_rpd[MEM_INDEX_ID(id)].tqe = tqe_float2int(torque, type_);
+    p_cdc_tx_message->data.pos_val_tqe_rpd[MEM_INDEX_ID(id)].rkp = kp_float2int(kp, pos_vel_type, type_); 
+    p_cdc_tx_message->data.pos_val_tqe_rpd[MEM_INDEX_ID(id)].rkd = kd_float2int(kd, pos_vel_type, type_);
 }
 
 void motor::pos_vel_kp_kd(float position, float velocity, float kp, float kd)
@@ -515,10 +515,10 @@ void motor::pos_vel_kp_kd(float position, float velocity, float kp, float kd)
             p_cdc_tx_message->data.pos_val_rpd[i].rkd = 0x0000;
         }
     }
-    p_cdc_tx_message->data.pos_val_rpd[iid].pos = pos_float2int(position, pos_vel_type);
-    p_cdc_tx_message->data.pos_val_rpd[iid].val = vel_float2int(velocity, pos_vel_type);
-    p_cdc_tx_message->data.pos_val_rpd[iid].rkp = kp_float2int(kp, pos_vel_type, type_);  
-    p_cdc_tx_message->data.pos_val_rpd[iid].rkd = kd_float2int(kd, pos_vel_type, type_); 
+    p_cdc_tx_message->data.pos_val_rpd[MEM_INDEX_ID(id)].pos = pos_float2int(position, pos_vel_type);
+    p_cdc_tx_message->data.pos_val_rpd[MEM_INDEX_ID(id)].val = vel_float2int(velocity, pos_vel_type);
+    p_cdc_tx_message->data.pos_val_rpd[MEM_INDEX_ID(id)].rkp = kp_float2int(kp, pos_vel_type, type_);  
+    p_cdc_tx_message->data.pos_val_rpd[MEM_INDEX_ID(id)].rkd = kd_float2int(kd, pos_vel_type, type_); 
 }
 
 void motor::fresh_data(int16_t position, int16_t velocity, int16_t torque)

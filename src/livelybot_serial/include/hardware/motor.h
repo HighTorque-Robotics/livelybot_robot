@@ -8,6 +8,8 @@
 #define my_2pi (6.28318530717f)
 #define my_pi (3.14159265358f)
 
+#define MEM_INDEX_ID(id) ((id) - 1)    
+
 enum motor_type
 {
     null,
@@ -30,7 +32,7 @@ enum pos_vel_convert_type
 class motor
 {
 private:
-    int type, id, num, CANport_num, CANboard_num, iid;
+    int type, id, num, CANport_num, CANboard_num;//, iid;
     ros::NodeHandle n;
     motor_back_t data;
     ros::Publisher _motor_pub;
@@ -98,7 +100,7 @@ public:
         cmd.motor_cmd.ID = id;
         cmd.head[0] = 0xFE;
         data.ID = id;
-        iid = id - 1;
+        // iid = id - 1;
         data.position = 999.0f;
     }
     ~motor() {}

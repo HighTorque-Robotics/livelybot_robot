@@ -14,25 +14,33 @@ int main(int argc, char **argv)
     ROS_INFO("\033[1;32mSTART\033[0m");
     // ========================== singlethread send =====================
     float derta = 0.01;//角度
-    int cont = 0;
+    int count = 0;
     float angle = 0.0;
+    int dir = 1;
     while (ros::ok()) // 此用法为逐个电机发送控制指令
     {
         /////////////////////////send
         for (motor *m : rb.Motors)
         {   
-            // ROS_INFO("id %d pos %f vel %f tqe %f\n", m->get_current_motor_state()->ID, m->get_current_motor_state()->position, m->get_current_motor_state()->velocity, m->get_current_motor_state()->torque);
+            // ROS_INFO("id %d pos %f vel %f tqe %f", m->get_current_motor_state()->ID, m->get_current_motor_state()->position, m->get_current_motor_state()->velocity, m->get_current_motor_state()->torque);
             // printf("%4.2f ", m->get_current_motor_state()->position);
-            // m->fresh_cmd_int16(0, 0, 0, 5.0, 0, 0, 0.1, 0, 0.5);
-            m->fresh_cmd_int16(0, 0, 0, 0, 0, 0, 0, 0, 0);
+            m->fresh_cmd_int16(angle, 0.05, 0, 200.0, 0, 5, 0.1, 0, 0.5);
+            // m->fresh_cmd_int16(0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
         // ROS_INFO(" ");
         rb.motor_send_2();
-        
+        angle += 0.001 * dir;
+        count ++;
+        if (count >= 1000)
+        {
+            dir *= -1;
+            count = 0;
+        }
         r.sleep();
+        ros::spinOnce();
     }
 
     ROS_INFO_STREAM("END"); 
-    ros::spin();
+    // ros::spin();
     return 0;
 }
