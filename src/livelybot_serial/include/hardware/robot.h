@@ -26,7 +26,7 @@ namespace livelybot_serial
         std::vector<canboard> CANboards;
         std::vector<std::string> str;
         std::vector<lively_serial *> ser;
-        float SDK_version2 = 3.0; // SDK版本
+        float SDK_version2 = 3.1; // SDK版本
 #ifdef DYNAMIC_CONFIG_ROBOT
         std::vector<double> config_slope_posistion;
         std::vector<double> config_offset_posistion;
@@ -163,10 +163,7 @@ namespace livelybot_serial
         }
         ~robot()
         {
-            for (auto &m : Motors)
-            {
-                m->fresh_cmd_int16(0, 0, 0, 0, 0, 0, 0, 0, 0);
-            }
+            set_stop();
             motor_send_2();
             for (auto &thread : ser_recv_threads)
             {
@@ -341,7 +338,7 @@ namespace livelybot_serial
                 }
                 else
                 {
-                    ser_recv_threads.push_back(std::thread(&lively_serial::recv, s));
+                    ROS_ERROR("SDK_version != 2");
                 }
             }
         }
@@ -428,6 +425,22 @@ namespace livelybot_serial
                 }
                 // exit(-1);
                 ros::Duration(5).sleep();
+            }
+        }
+
+        void set_stop()
+        {
+            for (canboard &cb : CANboards)
+            {
+                cb.set_stop();
+            }
+        }
+
+        void set_reset()
+        {
+            for (canboard &cb : CANboards)
+            {
+                cb.set_reset();
             }
         }
 

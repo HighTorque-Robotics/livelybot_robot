@@ -285,6 +285,30 @@ public:
         return 1;
     }
 
+    void set_stop()
+    {
+        if (cdc_tr_message.head.s.cmd != MODE_STOP)
+        {
+            cdc_tr_message.head.s.head = 0XF7;
+            cdc_tr_message.head.s.cmd = MODE_STOP;
+            cdc_tr_message.head.s.len = 1;
+            memset(&cdc_tr_message.data, 0, cdc_tr_message.head.s.len);
+        }
+        cdc_tr_message.data.data[0] = 0x7f;
+    }
+
+    void set_reset()
+    {
+        if (cdc_tr_message.head.s.cmd != MODE_RESET)
+        {
+            cdc_tr_message.head.s.head = 0XF7;
+            cdc_tr_message.head.s.cmd = MODE_RESET;
+            cdc_tr_message.head.s.len = 1;
+            memset(&cdc_tr_message.data, 0, cdc_tr_message.head.s.len);
+        }
+        cdc_tr_message.data.data[0] = 0x7f;
+    }
+
     void set_conf_write()
     {
         

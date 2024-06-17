@@ -55,6 +55,23 @@ public:
             c->motor_send_2();
         }
     }
+
+    void set_stop()
+    {
+        for (canport *c : CANport)
+        {
+            c->set_stop();
+        }
+    }
+
+    void set_reset()
+    {
+        for (canport *c : CANport)
+        {
+            c->set_reset();
+        }
+    }
+
     void set_port_motor_num()
     {
         for (canport *c : CANport)
@@ -82,6 +99,10 @@ public:
             {
                 c->set_conf_write();
             }
+            c->set_reset();
+            c->motor_send_2();
+            ros::Duration(5).sleep();
+            c->motor_send_2();
         }
     }
 };
