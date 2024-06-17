@@ -1,7 +1,7 @@
 <launch>
     <!-- <arg name="debug" default="false"/> -->
     <!-- <arg name="debug" default="false"/> -->
-    <arg name = "dof_type" default = "6"/>
+    <arg name = "dof_type" default = "2"/>
     <arg name = "mcu_type" default = "STM32H730"/>
     <arg name = "model_type" default = "test"/>
     <arg name = "design" default = "Orin"/>   

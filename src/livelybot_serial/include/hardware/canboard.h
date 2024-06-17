@@ -55,6 +55,14 @@ public:
             c->motor_send_2();
         }
     }
+
+    void set_stop()
+    {
+        for (canport *c : CANport)
+        {
+            c->set_stop();
+        }
+    }
     void set_port_motor_num()
     {
         for (canport *c : CANport)

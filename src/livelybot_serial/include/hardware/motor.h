@@ -43,6 +43,8 @@ private:
     int id_max = 0;
     int control_type = 0;
     pos_vel_convert_type pos_vel_type = radian_2pi;  
+    float pos_upper = 0.0f;
+    float pos_lower = 0.0f;
 
 
 public:
@@ -84,6 +86,22 @@ public:
         else
         {
             ROS_ERROR("Faile to get params num");
+        }
+        if (n.getParam("robot/CANboard/No_" + std::to_string(_CANboard_num) + "_CANboard/CANport/CANport_" + std::to_string(_CANport_num) + "/motor/motor" + std::to_string(_motor_num) + "/pos_upper", pos_upper))
+        {
+            ROS_INFO("Got params pos_upper: %f",pos_upper);
+        }
+        else
+        {
+            ROS_ERROR("Faile to get params pos_upper");
+        }
+        if (n.getParam("robot/CANboard/No_" + std::to_string(_CANboard_num) + "_CANboard/CANport/CANport_" + std::to_string(_CANport_num) + "/motor/motor" + std::to_string(_motor_num) + "/pos_lower", pos_lower))
+        {
+            ROS_INFO("Got params pos_lower: %f",pos_lower);
+        }
+        else
+        {
+            ROS_ERROR("Faile to get params pos_lower");
         }
         if (n.getParam("robot/control_type", control_type))
         {
