@@ -24,13 +24,13 @@ robot:
               id: 1
               name: "L_low_foot"
               num: 1
-              pos_upper: 1
-              pos_lower: -1
+              pos_upper: 0.2
+              pos_lower: -0.2
             motor2:
               type: 1
               id: 2
               name: "L_up_foot"
               num: 2
-              pos_upper: 1
-              pos_lower: -1
+              pos_upper: 0.5
+              pos_lower: -0.5
 

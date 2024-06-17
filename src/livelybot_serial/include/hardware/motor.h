@@ -45,7 +45,7 @@ private:
     pos_vel_convert_type pos_vel_type = radian_2pi;  
     float pos_upper = 0.0f;
     float pos_lower = 0.0f;
-
+    int limit_flag = 0;     // 0 表示正常，1 表示超出上限， 2 表示超出下限
 
 public:
     motor_pos_val_tqe_rpd_s cmd_int16_5param;

@@ -44,7 +44,7 @@ namespace livelybot_serial
         // std::vector<std::shared_ptr<canport>> CANPorts;
         std::vector<canport *> CANPorts;
         std::vector<std::thread> ser_recv_threads, send_threads;
-
+        int motor_limit_flag = 0;
         robot()
         {
             if (n.getParam("robot/SDK_version", SDK_version))
