@@ -44,6 +44,7 @@ namespace livelybot_serial
         // std::vector<std::shared_ptr<canport>> CANPorts;
         std::vector<canport *> CANPorts;
         std::vector<std::thread> ser_recv_threads, send_threads;
+        // std::thread pos_protect;
         int motor_limit_flag = 0;
         robot()
         {
@@ -170,11 +171,28 @@ namespace livelybot_serial
             // {
             //     m->fresh_cmd_int16(0, 0, 0, 0, 0, 0, 0, 0, 0);
             // }
-            motor_send_2();
+            // motor_send_2();
             for (auto &thread : ser_recv_threads)
             {
                 if (thread.joinable())
                     thread.join();
+            }
+        }
+        void detect_motor_limit()
+        {
+            // 电机正常运行时检测是否超过限位，停机之后不检测
+            if(!motor_limit_flag)
+            {
+                for (motor *m : Motors)
+                {
+                    if(m->limit_flag)
+                    {                    
+                        ROS_ERROR("robot limit, motor stop.");
+                        set_stop();
+                        motor_limit_flag = m->limit_flag;
+                        break;
+                    }
+                }            
             }
         }
 
@@ -188,10 +206,14 @@ namespace livelybot_serial
         }
         void motor_send_2()
         {
-            for (canboard &cb : CANboards)
+            if(!motor_limit_flag)
             {
-                cb.motor_send_2();
+                for (canboard &cb : CANboards)
+                {
+                    cb.motor_send_2();
+                }
             }
+            
         }
 
         int serial_pid_vid(const char *name, int *pid, int *vid)
@@ -440,6 +462,7 @@ namespace livelybot_serial
             {
                 cb.set_stop();
             }
+            motor_send_2();
         }
 
         void set_reset_zero()

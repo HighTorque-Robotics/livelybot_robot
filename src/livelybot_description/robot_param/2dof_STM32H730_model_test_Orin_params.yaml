@@ -24,8 +24,8 @@ robot:
               id: 1
               name: "L_low_foot"
               num: 1
-              pos_upper: 0.2
-              pos_lower: -0.2
+              pos_upper: 0.6
+              pos_lower: -0.6
             motor2:
               type: 1
               id: 2

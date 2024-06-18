@@ -36,6 +36,7 @@ int main(int argc, char **argv)
             dir *= -1;
             count = 0;
         }
+        rb.detect_motor_limit();
         r.sleep();
         ros::spinOnce();
     }

@@ -45,11 +45,10 @@ private:
     pos_vel_convert_type pos_vel_type = radian_2pi;  
     float pos_upper = 0.0f;
     float pos_lower = 0.0f;
-    int limit_flag = 0;     // 0 表示正常，1 表示超出上限， 2 表示超出下限
 
 public:
     motor_pos_val_tqe_rpd_s cmd_int16_5param;
-
+    int limit_flag = 0;     // 0 表示正常，1 表示超出上限， 2 表示超出下限
     cdc_acm_rx_message_t cmd;
     motor(int _motor_num, int _CANport_num, int _CANboard_num, cdc_tr_message_s *_p_cdc_tx_message, int _id_max) : CANport_num(_CANport_num), CANboard_num(_CANboard_num), p_cdc_tx_message(_p_cdc_tx_message), id_max(_id_max)
     {
