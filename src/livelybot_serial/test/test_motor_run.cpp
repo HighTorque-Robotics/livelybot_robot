@@ -20,11 +20,12 @@ int main(int argc, char **argv)
     while (ros::ok()) // 此用法为逐个电机发送控制指令
     {
         /////////////////////////send
+        rb.detect_motor_limit();
         for (motor *m : rb.Motors)
         {   
             // ROS_INFO("id %d pos %f vel %f tqe %f", m->get_current_motor_state()->ID, m->get_current_motor_state()->position, m->get_current_motor_state()->velocity, m->get_current_motor_state()->torque);
             // printf("%4.2f ", m->get_current_motor_state()->position);
-            m->fresh_cmd_int16(angle, 0.05, 0, 200.0, 0, 5, 0.1, 0, 0.5);
+            m->fresh_cmd_int16(angle, 0.05, 1, 200.0, 0, 5, 0.1, 0, 0.5);
             // m->fresh_cmd_int16(0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
         // ROS_INFO(" ");
@@ -33,10 +34,9 @@ int main(int argc, char **argv)
         count ++;
         if (count >= 1000)
         {
-            dir *= -1;
+            // dir *= -1;
             count = 0;
-        }
-        rb.detect_motor_limit();
+        }        
         r.sleep();
         ros::spinOnce();
     }

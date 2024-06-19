@@ -45,7 +45,8 @@ namespace livelybot_serial
         std::vector<canport *> CANPorts;
         std::vector<std::thread> ser_recv_threads, send_threads;
         // std::thread pos_protect;
-        int motor_limit_flag = 0;
+        int motor_position_limit_flag = 0;
+        int motor_torque_limit_flag = 0;
         robot()
         {
             if (n.getParam("robot/SDK_version", SDK_version))
@@ -181,15 +182,23 @@ namespace livelybot_serial
         void detect_motor_limit()
         {
             // 电机正常运行时检测是否超过限位，停机之后不检测
-            if(!motor_limit_flag)
+            if(!motor_position_limit_flag && !motor_torque_limit_flag)
             {
                 for (motor *m : Motors)
                 {
-                    if(m->limit_flag)
+                    if(m->pos_limit_flag)
                     {                    
-                        ROS_ERROR("robot limit, motor stop.");
+                        ROS_ERROR("robot pos limit, motor stop.");
                         set_stop();
-                        motor_limit_flag = m->limit_flag;
+                        motor_position_limit_flag = m->pos_limit_flag;
+                        break;
+                    }
+
+                    if(m->tor_limit_flag)
+                    {
+                        ROS_ERROR("robot torque limit, motor stop.");
+                        set_stop();
+                        motor_torque_limit_flag = m->tor_limit_flag;
                         break;
                     }
                 }            
@@ -206,7 +215,7 @@ namespace livelybot_serial
         }
         void motor_send_2()
         {
-            if(!motor_limit_flag)
+            if(!motor_position_limit_flag && !motor_torque_limit_flag)
             {
                 for (canboard &cb : CANboards)
                 {

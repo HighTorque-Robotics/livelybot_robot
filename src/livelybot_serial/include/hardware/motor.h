@@ -45,10 +45,13 @@ private:
     pos_vel_convert_type pos_vel_type = radian_2pi;  
     float pos_upper = 0.0f;
     float pos_lower = 0.0f;
+    float tor_upper = 0.0f;
+    float tor_lower = 0.0f;
 
 public:
     motor_pos_val_tqe_rpd_s cmd_int16_5param;
-    int limit_flag = 0;     // 0 表示正常，1 表示超出上限， 2 表示超出下限
+    int pos_limit_flag = 0;     // 0 表示正常，1 表示超出上限， -1 表示超出下限
+    int tor_limit_flag = 0;     // 0 表示正常，1 表示超出上限
     cdc_acm_rx_message_t cmd;
     motor(int _motor_num, int _CANport_num, int _CANboard_num, cdc_tr_message_s *_p_cdc_tx_message, int _id_max) : CANport_num(_CANport_num), CANboard_num(_CANboard_num), p_cdc_tx_message(_p_cdc_tx_message), id_max(_id_max)
     {
@@ -86,6 +89,7 @@ public:
         {
             ROS_ERROR("Faile to get params num");
         }
+        // position limit
         if (n.getParam("robot/CANboard/No_" + std::to_string(_CANboard_num) + "_CANboard/CANport/CANport_" + std::to_string(_CANport_num) + "/motor/motor" + std::to_string(_motor_num) + "/pos_upper", pos_upper))
         {
             ROS_INFO("Got params pos_upper: %f",pos_upper);
@@ -101,6 +105,23 @@ public:
         else
         {
             ROS_ERROR("Faile to get params pos_lower");
+        }
+        // torque limit
+        if (n.getParam("robot/CANboard/No_" + std::to_string(_CANboard_num) + "_CANboard/CANport/CANport_" + std::to_string(_CANport_num) + "/motor/motor" + std::to_string(_motor_num) + "/tor_upper", tor_upper))
+        {
+            ROS_INFO("Got params tor_upper: %f",tor_upper);
+        }
+        else
+        {
+            ROS_ERROR("Faile to get params tor_upper");
+        }
+        if (n.getParam("robot/CANboard/No_" + std::to_string(_CANboard_num) + "_CANboard/CANport/CANport_" + std::to_string(_CANport_num) + "/motor/motor" + std::to_string(_motor_num) + "/tor_lower", tor_lower))
+        {
+            ROS_INFO("Got params tor_lower: %f",tor_lower);
+        }
+        else
+        {
+            ROS_ERROR("Faile to get params tor_lower");
         }
         if (n.getParam("robot/control_type", control_type))
         {
