@@ -526,29 +526,36 @@ void motor::fresh_data(int16_t position, int16_t velocity, int16_t torque)
     p_msg.pos = data.position = pos_int2float(position, pos_vel_type);
     p_msg.vel = data.velocity = vel_int2float(velocity, pos_vel_type);
     p_msg.tau = data.torque = tqe_int2float(torque, type_);
-    // 判断是否超过电机限制角度
-    if(data.position > pos_upper)
+    if(pos_limit_enable)
     {
-        ROS_ERROR("Motor %d exceed position upper limit.", id);
-        pos_limit_flag = 1;
+        // 判断是否超过电机限制角度
+        if(data.position > pos_upper)
+        {
+            ROS_ERROR("Motor %d exceed position upper limit.", id);
+            pos_limit_flag = 1;
+        }
+        else if(data.position < pos_lower)
+        {
+            ROS_ERROR("Motor %d exceed position lower limit.", id);
+            pos_limit_flag = -1;
+        }
     }
-    else if(data.position < pos_lower)
+    
+    if(tor_limit_enable)
     {
-        ROS_ERROR("Motor %d exceed position lower limit.", id);
-        pos_limit_flag = -1;
+        // 判断是否超过电机扭矩限制
+        if(data.torque > tor_upper)
+        {
+            ROS_ERROR("Motor %d exceed torque upper limit.", id);
+            tor_limit_flag = 1;
+        }
+        else if(data.torque < tor_lower)
+        {
+            ROS_ERROR("Motor %d exceed torque lower limit.", id);
+            tor_limit_flag = -1;
+        }
     }
-
-    // 判断是否超过电机扭矩限制
-    if(data.torque > tor_upper)
-    {
-        ROS_ERROR("Motor %d exceed torque upper limit.", id);
-        tor_limit_flag = 1;
-    }
-    else if(data.torque < tor_lower)
-    {
-        ROS_ERROR("Motor %d exceed torque lower limit.", id);
-        tor_limit_flag = -1;
-    }
+    
     // std::cout << "test " << id << ": " << data.position << "  " << data.velocity << "  " << data.torque << std::endl;
     _motor_pub.publish(p_msg);
 }

@@ -42,9 +42,11 @@ private:
     cdc_tr_message_s *p_cdc_tx_message = NULL;
     int id_max = 0;
     int control_type = 0;
-    pos_vel_convert_type pos_vel_type = radian_2pi;  
+    pos_vel_convert_type pos_vel_type = radian_2pi; 
+    bool pos_limit_enable = false; 
     float pos_upper = 0.0f;
     float pos_lower = 0.0f;
+    bool tor_limit_enable = false;
     float tor_upper = 0.0f;
     float tor_lower = 0.0f;
 
@@ -90,6 +92,14 @@ public:
             ROS_ERROR("Faile to get params num");
         }
         // position limit
+        if (n.getParam("robot/CANboard/No_" + std::to_string(_CANboard_num) + "_CANboard/CANport/CANport_" + std::to_string(_CANport_num) + "/motor/motor" + std::to_string(_motor_num) + "/pos_limit_enable", pos_limit_enable))
+        {
+            ROS_INFO("Got params pos_limit_enable: %s",pos_limit_enable?"true":"false");
+        }
+        else
+        {
+            ROS_ERROR("Faile to get params pos_upper");
+        }
         if (n.getParam("robot/CANboard/No_" + std::to_string(_CANboard_num) + "_CANboard/CANport/CANport_" + std::to_string(_CANport_num) + "/motor/motor" + std::to_string(_motor_num) + "/pos_upper", pos_upper))
         {
             ROS_INFO("Got params pos_upper: %f",pos_upper);
@@ -107,6 +117,14 @@ public:
             ROS_ERROR("Faile to get params pos_lower");
         }
         // torque limit
+        if (n.getParam("robot/CANboard/No_" + std::to_string(_CANboard_num) + "_CANboard/CANport/CANport_" + std::to_string(_CANport_num) + "/motor/motor" + std::to_string(_motor_num) + "/tor_limit_enable", tor_limit_enable))
+        {
+            ROS_INFO("Got params tor_limit_enable: %s",tor_limit_enable?"true":"false");
+        }
+        else
+        {
+            ROS_ERROR("Faile to get params tor_upper");
+        }
         if (n.getParam("robot/CANboard/No_" + std::to_string(_CANboard_num) + "_CANboard/CANport/CANport_" + std::to_string(_CANport_num) + "/motor/motor" + std::to_string(_motor_num) + "/tor_upper", tor_upper))
         {
             ROS_INFO("Got params tor_upper: %f",tor_upper);

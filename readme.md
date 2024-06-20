@@ -127,3 +127,35 @@
     ```
     ./livelybot_serial/test/test_motor_feedback.cpp
     ```
+
+### 九、电机保护功能
+
+1. 位置保护
+    * 设置配置文件在`motorX`标签下添加`pos_upper`和`pos_lower`参数，分别表示位置上限和下限，添加`pos_limit_enable`参数，表示是否开启位置保护；
+    * 设置示例如下：
+    ```
+    motor1:
+        type: 1
+        id: 1
+        name: "L_low_foot"
+        num: 1
+        pos_limit_enable: true
+        pos_upper: 10
+        pos_lower: -10
+    ```
+    * 上述示例中，`pos_limit_enable`为1， 表示开启位置保护，`pos_upper`和`pos_lower`分别为10和-10，表示位置上限和下限；
+
+2. 扭矩保护
+    * 设置配置文件在`motorX`标签下添加`tor_upper`和`tor_lower`参数，分别表示位置上限和下限，添加`tor_limit_enable`参数，表示是否开启位置保护；
+    * 设置示例如下：
+    ```
+    motor1:
+        type: 1
+        id: 1
+        name: "L_low_foot"
+        num: 1
+        tor_limit_enable: true
+        tor_upper: 5
+        tor_lower: -3
+    ```
+    * 上述示例中，`tor_limit_enable`为1， 表示开启扭矩保护，`tor_upper`和`tor_lower`分别为5和-3，表示位置上限和下限；
