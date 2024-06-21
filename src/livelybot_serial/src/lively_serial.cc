@@ -191,13 +191,13 @@ void lively_serial::send_2(cdc_tr_message_s *cdc_tr_message)
     cdc_tr_message->head.s.crc8 = Get_CRC8_Check_Sum(&(cdc_tr_message->head.data[1]), 3, 0xFF);
     cdc_tr_message->head.s.crc16 = crc_ccitt(0xFFFF, &(cdc_tr_message->data.data[0]), cdc_tr_message->head.s.len);
 
-    // uint8_t *byte_ptr = (uint8_t *)&cdc_tr_message->head.s.head;
-    // printf("send:\n");
-    // for (size_t i = 0; i < cdc_tr_message->head.s.len + 7; i++)
-    // {
-    //     printf("0x%.2X ", byte_ptr[i]);
-    // }
-    // printf("\n\n");
+    uint8_t *byte_ptr = (uint8_t *)&cdc_tr_message->head.s.head;
+    printf("send:\n");
+    for (size_t i = 0; i < cdc_tr_message->head.s.len + 7; i++)
+    {
+        printf("0x%.2X ", byte_ptr[i]);
+    }
+    printf("\n\n");
 
     _ser.write((const uint8_t *)&cdc_tr_message->head.s.head, cdc_tr_message->head.s.len + sizeof(cdc_tr_message_head_s));
 }
