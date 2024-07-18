@@ -22,32 +22,32 @@ robot:
             motor1:
                 type: 5
                 id: 1
-                name: "L_toe_up"
+                name: "L_low_foot"
                 num: 1
             motor2:
                 type: 5
                 id: 2
-                name: "L_calf"
+                name: "L_up_foot"
                 num: 2
             motor3:
                 type: 3
                 id: 3
-                name: "L_hip"
+                name: "L_calf"
                 num: 3
             motor4:
                 type: 3
                 id: 4
-                name: "L_hip2"
+                name: "L_hip_pitch"
                 num: 4
             motor5:
                 type: 3
                 id: 5
-                name: "L_thigh"
+                name: "L_hip_roll"
                 num: 5
             motor6:
                 type: 3
                 id: 6
-                name: "L_thigh"
+                name: "L_hip_yaw"
                 num: 6
         CANport_2:
           motor_num: 6
@@ -55,32 +55,32 @@ robot:
             motor1:
                 type: 5
                 id: 1
-                name: "R_toe_up"
+                name: "R_low_foot"
                 num: 1
             motor2:
                 type: 5
                 id: 2
-                name: "R_calf"
+                name: "R_up_foot"
                 num: 2
             motor3:
                 type: 3
                 id: 3
-                name: "R_hip"
+                name: "R_calf"
                 num: 3
             motor4:
                 type: 3
                 id: 4
-                name: "R_hip2"
+                name: "R_hip_pitch"
                 num: 4
             motor5:
                 type: 3
                 id: 5
-                name: "R_thigh"
+                name: "R_hip_roll"
                 num: 5
             motor6:
                 type: 3
                 id: 6
-                name: "L_thigh"
+                name: "R_hip_yaw"
                 num: 6
         CANport_3:
           motor_num: 4
@@ -88,22 +88,22 @@ robot:
             motor1:
                 type: 2
                 id: 1
-                name: "L_toe_up"
+                name: "L_shoulder"
                 num: 1
             motor2:
                 type: 2
                 id: 2
-                name: "L_calf"
+                name: "L_arm_1"
                 num: 2
             motor3:
                 type: 2
                 id: 3
-                name: "L_hip"
+                name: "L_arm_2"
                 num: 3
             motor4:
                 type: 2
                 id: 4
-                name: "L_hip2"
+                name: "L_wrist"
                 num: 4
         CANport_4:
           motor_num: 4
@@ -111,21 +111,21 @@ robot:
             motor1:
                 type: 2
                 id: 1
-                name: "R_toe_up"
+                name: "R_shoulder"
                 num: 1
             motor2:
                 type: 2
                 id: 2
-                name: "R_calf"
+                name: "R_arm_1"
                 num: 2
             motor3:
                 type: 2
                 id: 3
-                name: "R_hip"
+                name: "R_arm_2"
                 num: 3
             motor4:
                 type: 2
                 id: 4
-                name: "R_hip2"
+                name: "R_wrist"
                 num: 4
  
