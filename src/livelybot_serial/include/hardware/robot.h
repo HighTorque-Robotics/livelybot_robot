@@ -44,7 +44,9 @@ namespace livelybot_serial
         // std::vector<std::shared_ptr<canport>> CANPorts;
         std::vector<canport *> CANPorts;
         std::vector<std::thread> ser_recv_threads, send_threads;
-
+        // std::thread pos_protect;
+        int motor_position_limit_flag = 0;
+        int motor_torque_limit_flag = 0;
         robot()
         {
             if (n.getParam("robot/SDK_version", SDK_version))
@@ -140,6 +142,8 @@ namespace livelybot_serial
             set_port_motor_num(); // 设置通道上挂载的电机数，并获取主控板固件版本号
             chevk_motor_connection();  // 检测电机连接是否正常
 
+            ros::Duration(2.0).sleep();
+
             ROS_INFO("\033[1;32mThe robot has %ld motors\033[0m", Motors.size());
             ROS_INFO("robot init");
             // for (motor m:Motors)
@@ -171,6 +175,31 @@ namespace livelybot_serial
                     thread.join();
             }
         }
+        void detect_motor_limit()
+        {
+            // 电机正常运行时检测是否超过限位，停机之后不检测
+            if(!motor_position_limit_flag && !motor_torque_limit_flag)
+            {
+                for (motor *m : Motors)
+                {
+                    if(m->pos_limit_flag)
+                    {                    
+                        ROS_ERROR("robot pos limit, motor stop.");
+                        set_stop();
+                        motor_position_limit_flag = m->pos_limit_flag;
+                        break;
+                    }
+
+                    if(m->tor_limit_flag)
+                    {
+                        ROS_ERROR("robot torque limit, motor stop.");
+                        set_stop();
+                        motor_torque_limit_flag = m->tor_limit_flag;
+                        break;
+                    }
+                }            
+            }
+        }
 
         void motor_send()
         {
@@ -182,10 +211,14 @@ namespace livelybot_serial
         }
         void motor_send_2()
         {
-            for (canboard &cb : CANboards)
+            if(!motor_position_limit_flag && !motor_torque_limit_flag)
             {
-                cb.motor_send_2();
+                for (canboard &cb : CANboards)
+                {
+                    cb.motor_send_2();
+                }
             }
+            
         }
 
         int serial_pid_vid(const char *name, int *pid, int *vid)
@@ -424,7 +457,7 @@ namespace livelybot_serial
                     ROS_ERROR("CANboard(%d) CANport(%d) id(%d) Motor connection disconnected!!!", board[i], port[i], id[i]);
                 }
                 // exit(-1);
-                ros::Duration(5).sleep();
+                ros::Duration(1).sleep();
             }
         }
 
@@ -434,6 +467,7 @@ namespace livelybot_serial
             {
                 cb.set_stop();
             }
+            motor_send_2();
         }
 
         void set_reset()

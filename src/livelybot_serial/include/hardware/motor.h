@@ -8,6 +8,8 @@
 #define my_2pi (6.28318530717f)
 #define my_pi (3.14159265358f)
 
+#define MEM_INDEX_ID(id) ((id) - 1)    
+
 enum motor_type
 {
     null,
@@ -30,7 +32,7 @@ enum pos_vel_convert_type
 class motor
 {
 private:
-    int type, id, num, CANport_num, CANboard_num, iid;
+    int type, id, num, CANport_num, CANboard_num;//, iid;
     ros::NodeHandle n;
     motor_back_t data;
     ros::Publisher _motor_pub;
@@ -40,12 +42,18 @@ private:
     cdc_tr_message_s *p_cdc_tx_message = NULL;
     int id_max = 0;
     int control_type = 0;
-    pos_vel_convert_type pos_vel_type = radian_2pi;  
-
+    pos_vel_convert_type pos_vel_type = radian_2pi; 
+    bool pos_limit_enable = false; 
+    float pos_upper = 0.0f;
+    float pos_lower = 0.0f;
+    bool tor_limit_enable = false;
+    float tor_upper = 0.0f;
+    float tor_lower = 0.0f;
 
 public:
     motor_pos_val_tqe_rpd_s cmd_int16_5param;
-
+    int pos_limit_flag = 0;     // 0 表示正常，1 表示超出上限， -1 表示超出下限
+    int tor_limit_flag = 0;     // 0 表示正常，1 表示超出上限
     cdc_acm_rx_message_t cmd;
     motor(int _motor_num, int _CANport_num, int _CANboard_num, cdc_tr_message_s *_p_cdc_tx_message, int _id_max) : CANport_num(_CANport_num), CANboard_num(_CANboard_num), p_cdc_tx_message(_p_cdc_tx_message), id_max(_id_max)
     {
@@ -83,6 +91,56 @@ public:
         {
             ROS_ERROR("Faile to get params num");
         }
+        // position limit
+        if (n.getParam("robot/CANboard/No_" + std::to_string(_CANboard_num) + "_CANboard/CANport/CANport_" + std::to_string(_CANport_num) + "/motor/motor" + std::to_string(_motor_num) + "/pos_limit_enable", pos_limit_enable))
+        {
+            ROS_INFO("Got params pos_limit_enable: %s",pos_limit_enable?"true":"false");
+        }
+        else
+        {
+            ROS_ERROR("Faile to get params pos_upper");
+        }
+        if (n.getParam("robot/CANboard/No_" + std::to_string(_CANboard_num) + "_CANboard/CANport/CANport_" + std::to_string(_CANport_num) + "/motor/motor" + std::to_string(_motor_num) + "/pos_upper", pos_upper))
+        {
+            ROS_INFO("Got params pos_upper: %f",pos_upper);
+        }
+        else
+        {
+            ROS_ERROR("Faile to get params pos_upper");
+        }
+        if (n.getParam("robot/CANboard/No_" + std::to_string(_CANboard_num) + "_CANboard/CANport/CANport_" + std::to_string(_CANport_num) + "/motor/motor" + std::to_string(_motor_num) + "/pos_lower", pos_lower))
+        {
+            ROS_INFO("Got params pos_lower: %f",pos_lower);
+        }
+        else
+        {
+            ROS_ERROR("Faile to get params pos_lower");
+        }
+        // torque limit
+        if (n.getParam("robot/CANboard/No_" + std::to_string(_CANboard_num) + "_CANboard/CANport/CANport_" + std::to_string(_CANport_num) + "/motor/motor" + std::to_string(_motor_num) + "/tor_limit_enable", tor_limit_enable))
+        {
+            ROS_INFO("Got params tor_limit_enable: %s",tor_limit_enable?"true":"false");
+        }
+        else
+        {
+            ROS_ERROR("Faile to get params tor_upper");
+        }
+        if (n.getParam("robot/CANboard/No_" + std::to_string(_CANboard_num) + "_CANboard/CANport/CANport_" + std::to_string(_CANport_num) + "/motor/motor" + std::to_string(_motor_num) + "/tor_upper", tor_upper))
+        {
+            ROS_INFO("Got params tor_upper: %f",tor_upper);
+        }
+        else
+        {
+            ROS_ERROR("Faile to get params tor_upper");
+        }
+        if (n.getParam("robot/CANboard/No_" + std::to_string(_CANboard_num) + "_CANboard/CANport/CANport_" + std::to_string(_CANport_num) + "/motor/motor" + std::to_string(_motor_num) + "/tor_lower", tor_lower))
+        {
+            ROS_INFO("Got params tor_lower: %f",tor_lower);
+        }
+        else
+        {
+            ROS_ERROR("Faile to get params tor_lower");
+        }
         if (n.getParam("robot/control_type", control_type))
         {
             // ROS_INFO("Got params ontrol_type: %f",SDK_version);
@@ -98,7 +156,7 @@ public:
         cmd.motor_cmd.ID = id;
         cmd.head[0] = 0xFE;
         data.ID = id;
-        iid = id - 1;
+        // iid = id - 1;
         data.position = 999.0f;
     }
     ~motor() {}

@@ -50,7 +50,7 @@ robot:
                 name: "L_hip_yaw"
                 num: 6
         CANport_2:
-          motor_num: 6
+          motor_num: 3
           motor:
             motor1:
                 type: 5

@@ -70,6 +70,10 @@ add_executable(test_feedback test/test_feedback.cpp ${serial_SRCS})
 add_dependencies(test_feedback ${PROJECT_NAME})
 target_link_libraries(test_feedback ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 
+add_executable(test_motor_feedback test/test_motor_feedback.cpp ${serial_SRCS})
+add_dependencies(test_motor_feedback ${PROJECT_NAME})
+target_link_libraries(test_motor_feedback ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
+
 add_executable(test_motor_run test/test_motor_run.cpp ${serial_SRCS})
 add_dependencies(test_motor_run ${PROJECT_NAME})
 target_link_libraries(test_motor_run ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})

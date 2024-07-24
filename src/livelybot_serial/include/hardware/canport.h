@@ -6,6 +6,7 @@
 #include <thread>
 #include "../lively_serial.h"
 #include <unordered_set>
+#include <iostream>
 
 class canport
 {
@@ -46,8 +47,7 @@ public:
         {
             ROS_ERROR("Too many motors, Supports up to %d motors, but there are actually %d motors", motor_num_max, motor_num);
             exit(-1);
-        }
-        
+        }        
 
         for (int i = 1; i <= motor_num; i++)
         {
@@ -284,7 +284,6 @@ public:
 
         return 1;
     }
-
     void set_stop()
     {
         if (cdc_tr_message.head.s.cmd != MODE_STOP)
@@ -308,7 +307,6 @@ public:
         }
         cdc_tr_message.data.data[0] = 0x7f;
     }
-
     void set_conf_write()
     {
         
@@ -359,6 +357,7 @@ public:
             exit(-1);
         }
     }
+    
     int set_conf_write(int id)
     {
         
