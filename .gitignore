@@ -1,6 +1,7 @@
 /.vscode/
-/.catkin_tools/
+/.catkin_tools/*
 **/.vscode/
 /build/
 /devel/
 /logs/
+*.pdf
