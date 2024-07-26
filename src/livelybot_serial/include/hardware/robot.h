@@ -26,7 +26,7 @@ namespace livelybot_serial
         std::vector<canboard> CANboards;
         std::vector<std::string> str;
         std::vector<lively_serial *> ser;
-        float SDK_version2 = 3.2; // SDK版本
+        float SDK_version2 = 3.3; // SDK版本
 #ifdef DYNAMIC_CONFIG_ROBOT
         std::vector<double> config_slope_posistion;
         std::vector<double> config_offset_posistion;
