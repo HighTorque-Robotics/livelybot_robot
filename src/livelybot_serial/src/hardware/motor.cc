@@ -32,26 +32,26 @@ inline int16_t motor::vel_float2int(float in_data, uint8_t type)
 
 inline int16_t motor::tqe_float2int(float in_data, motor_type motor_type)
 {
-    switch (motor_type)
-    {
-    case motor_type::null:
-        ROS_ERROR("motor type not set,fresh command fault");
-        return int16_t();
-    case motor_type::_5046:
-        return (int16_t)((in_data + 0.07) / 0.00528);
-    case motor_type::_4538:
-        return (int16_t)((in_data + 0.05) / 0.00445);
-    case motor_type::_5047_36:
-        // return (int16_t)((in_data + 0.05253) / 0.00462);  // 老款
-        return (int16_t)((in_data + 0.03313) / 0.004938);
-    case motor_type::_5047_9:
-        return (int16_t)((in_data + 0.034809) / 0.00533);
-    case motor_type::_4438_32:
-        return (int16_t)((in_data + 0.083) / 0.005584f);
-    default:
-        ROS_ERROR("motor type setting error");
-        return int16_t();
-    }
+    // switch (motor_type)
+    // {
+    // case motor_type::null:
+    //     ROS_ERROR("motor type not set,fresh command fault");
+    //     return int16_t();
+    // case motor_type::_5046:
+    //     return (int16_t)(in_data * 100); 
+    // case motor_type::_4538:
+    //     return (int16_t)((in_data + 0.05) / 0.00445);
+    // case motor_type::_5047_36:
+    //     return (int16_t)(in_data * 100); 
+    // case motor_type::_5047_9:
+    //     return (int16_t)((in_data + 0.034809) / 0.00533);
+    // case motor_type::_4438_32:
+    //     return (int16_t)(in_data * 100); 
+    // default:
+    //     ROS_ERROR("motor type setting error");
+    //     return int16_t();
+    // }
+    return (int16_t)(in_data * 100); 
 }
 
 inline int16_t motor::rkp_float2int(float in_data, motor_type motor_type)
@@ -249,28 +249,28 @@ inline float motor::vel_int2float(int16_t in_data, uint8_t type)
 
 inline float motor::tqe_int2float(int16_t in_data, motor_type type)
 {
-    switch (type)
-    {
-    case (motor_type::null):
-        ROS_ERROR("motor type not set,fresh data fault");
-    case (motor_type::_5046):
-        return (float)(in_data * 0.005397) - 0.07;
-    case (motor_type::_4538):
-        return (float)(in_data * 0.00445) - 0.05;
-    case (motor_type::_5047_36):
-        // return (float)(in_data * 0.00462) - 0.05253;  // 老款
-        return (float)(in_data * 0.004938f) - 0.03313f;
-    case (motor_type::_5047_9):
-        return (float)(in_data * 0.00533) - 0.034809;
-    case (motor_type::_4438_32):
-        return (float)(in_data * 0.005584) - 0.083f;
-    case (motor_type::_4438_8):
-        return (float)(in_data * 0.0055); // 未测
-    case (motor_type::_7136_7):
-        return (float)(in_data * 0.006); // 未测
-    default:
-        return float();
-    }
+    // switch (type)
+    // {
+    // case (motor_type::null):
+    //     ROS_ERROR("motor type not set,fresh data fault");
+    // case (motor_type::_5046):
+    //     return (int16_t)(in_data * 0.01);
+    // case (motor_type::_4538):
+    //     return (float)(in_data * 0.00445) - 0.05;
+    // case (motor_type::_5047_36):
+    //     return (int16_t)(in_data * 0.01);
+    // case (motor_type::_5047_9):
+    //     return (float)(in_data * 0.00533) - 0.034809;
+    // case (motor_type::_4438_32):
+    //     return (int16_t)(in_data * 0.01);
+    // case (motor_type::_4438_8):
+    //     return (float)(in_data * 0.0055); // 未测
+    // case (motor_type::_7136_7):
+    //     return (float)(in_data * 0.006); // 未测
+    // default:
+    //     return float();
+    // }
+    return (int16_t)(in_data * 0.01);
 }
 
 
