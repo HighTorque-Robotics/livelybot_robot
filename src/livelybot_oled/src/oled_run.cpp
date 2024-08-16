@@ -10,6 +10,8 @@
 #include <tf/transform_datatypes.h>
 #include "ip_addr.hpp"
 
+#define _2PI_ 6.2832
+
 Sensor_actuator_status status(2,6);
 
 void imu_callback(const sensor_msgs::Imu::ConstPtr& data);
@@ -30,7 +32,7 @@ int main(int argc, char **argv) {
     while(ros::ok())
     {
         r.sleep();
-        status.send_ip_addr(get_ip_data_u32_all(), 3);
+        // status.send_ip_addr(get_ip_data_u32_all(), 3);
         ros::spinOnce();
         i++;
         if(i>=10)
@@ -62,9 +64,12 @@ void imu_callback(const sensor_msgs::Imu::ConstPtr& data) {
     rpy[2] = yaw;
     for(int i = 0; i < 3; i++)
     {
-        if(rpy[i] > 6.28)
+        if(rpy[i] > _2PI_)
         {
-            rpy[i] = 0;
+            rpy[i] -= _2PI_;
+        }else if(rpy[i] < 0)
+        {
+            rpy[i] += _2PI_;
         }
     }
     status.send_imu_actuator_status(1, rpy, motor_status);
