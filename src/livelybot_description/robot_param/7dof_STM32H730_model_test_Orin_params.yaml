@@ -17,7 +17,7 @@ robot:
       CANport_num: 1
       CANport:
         CANport_1:
-          motor_num: 7
+          motor_num: 6
           motor:
             motor1:
               type: 1

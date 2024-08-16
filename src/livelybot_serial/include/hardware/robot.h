@@ -409,7 +409,7 @@ namespace livelybot_serial
             std::vector<int> port;
             std::vector<int> id;
 
-#define MAX_DELAY 10000 // 单位 ms
+#define MAX_DELAY 2000 // 单位 ms
 
             ROS_INFO("Detecting motor connection");
             while (t++ < MAX_DELAY)
