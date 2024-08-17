@@ -13,6 +13,7 @@ typedef struct motor_cmd_struct
 } motor_cmd_t;
 typedef struct motor_back_struct
 {
+    double time;
     uint8_t ID;
     float position;
     float velocity;

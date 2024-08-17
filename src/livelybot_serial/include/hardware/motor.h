@@ -220,5 +220,6 @@ public:
     motor_pos_val_tqe_rpd_s *return_pos_val_tqe_rpd_p() { return &cmd_int16_5param; }
     size_t return_size_motor_pos_val_tqe_rpd_s() { return sizeof(motor_pos_val_tqe_rpd_s); }
     motor_back_t *get_current_motor_state() { return &data; }
+    std::string get_motor_name(){return motor_name;}
 };
 #endif

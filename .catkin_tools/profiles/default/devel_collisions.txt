@@ -5,3 +5,4 @@
 /home/orangepi/SDK/robut_bug/devel/./cmake.lock 102
 /home/orangepi/SDK/livelybot_robot_2.8v_240524/devel/./cmake.lock 438
 /home/orangepi/SDK/livelybot_robot_v3.0_240524/devel/./cmake.lock 79
+/home/sunteng/world/livelybot_robot/devel/./cmake.lock 91
