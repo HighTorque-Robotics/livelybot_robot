@@ -27,10 +27,12 @@ public:
     motor_status_s motor_status;
     serial::Serial _ser;
     int suc_flag;
-    std::vector<unsigned char> send_buff;
+    unsigned char send_buff[64];
     Sensor_actuator_status(int can_nums, int motor_nums);
     ~Sensor_actuator_status();
     void send_imu_actuator_status(bool iomu_exist, float *rpy, unsigned char *m_status);
+    void send_imu_status(bool imu_exist, float *rpy);
+    void send_motor_status(unsigned char* m_status);
     void send_ip_addr(unsigned int* ip_data, unsigned char len);
 };
 
