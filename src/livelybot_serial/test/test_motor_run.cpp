@@ -29,8 +29,8 @@ int main(int argc, char **argv)
             ROS_INFO("motor id:%d", i);
             // ROS_INFO("id %d pos %f vel %f tqe %f", m->get_current_motor_state()->ID, m->get_current_motor_state()->position, m->get_current_motor_state()->velocity, m->get_current_motor_state()->torque);
             // printf("%4.2f ", m->get_current_motor_state()->position);
-            m->fresh_cmd_int16(angle, 0.05, 1, 200.0, 0, 5, 0.1, 0, 0.5);
-            // m->fresh_cmd_int16(0, 0, 0, 0, 0, 0, 0, 0, 0);
+            // m->fresh_cmd_int16(angle, 0.05, 1, 200.0, 0, 5, 0.1, 0, 0.5);
+            m->fresh_cmd_int16(0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
         // ROS_INFO(" ");
         rb.motor_send_2();

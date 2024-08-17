@@ -526,6 +526,9 @@ void motor::fresh_data(int16_t position, int16_t velocity, int16_t torque)
     p_msg.pos = data.position = pos_int2float(position, pos_vel_type);
     p_msg.vel = data.velocity = vel_int2float(velocity, pos_vel_type);
     p_msg.tau = data.torque = tqe_int2float(torque, type_);
+    ros::Time now = ros::Time::now();
+    // 将时间转换为double类型
+    data.time = now.toSec();
     if(pos_limit_enable)
     {
         // 判断是否超过电机限制角度
