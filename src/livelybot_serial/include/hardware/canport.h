@@ -104,7 +104,7 @@ public:
         while (t++ < MAX_DALAY)
         {
             motor_send_2();
-            ros::Duration(0.001).sleep();
+            ros::Duration(0.02).sleep();
             if (port_version >= 2)
             {
                 // ROS_INFO("\033[1;32m ttt %d\033[0m", t);
@@ -143,7 +143,7 @@ public:
         while (t++ < max_delay)
         {
             motor_send_2();
-            ros::Duration(0.01).sleep();
+            ros::Duration(0.02).sleep();
             num = 0;
             if (mode_flag == MODE_CONF_LOAD)
             {
@@ -194,7 +194,7 @@ public:
         while (t++ < max_delay)
         {
             motor_send_2();
-            ros::Duration(0.01).sleep();
+            ros::Duration(0.02).sleep();
             if (mode_flag == MODE_CONF_LOAD && motors_id.count(id) == 1)
             {
                 return 0;
@@ -222,7 +222,7 @@ public:
         while (t++ < max_delay)
         {
             motor_send_2();
-            ros::Duration(0.001).sleep();
+            ros::Duration(0.02).sleep();
             num = 0;
             if (mode_flag == MODE_RESET_ZERO)
             {
@@ -275,7 +275,7 @@ public:
         while (t++ < max_delay)
         {
             motor_send_2();
-            ros::Duration(0.001).sleep();
+            ros::Duration(0.02).sleep();
             if (mode_flag == MODE_RESET_ZERO && motors_id.count(id) == 1)
             {
                 return 0;
@@ -327,7 +327,7 @@ public:
         while (t++ < max_delay)
         {
             motor_send_2();
-            ros::Duration(0.001).sleep();
+            ros::Duration(0.02).sleep();
             num = 0;
             if (mode_flag == MODE_CONF_WRITE)
             {
@@ -377,7 +377,7 @@ public:
         while (t++ < max_delay)
         {
             motor_send_2();
-            ros::Duration(0.001).sleep();
+            ros::Duration(0.02).sleep();
             if (mode_flag == MODE_CONF_WRITE && motors_id.count(id) == 1)
             {
                 return 0;
