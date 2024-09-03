@@ -141,6 +141,12 @@ set(OLED_NODE_FILE
     src/ip_addr.hpp
     src/ip_addr.cpp
 )
+
+find_library(SERIALPORT_LIBRARY serialport)
+if(NOT SERIALPORT_LIBRARY)
+  message(FATAL_ERROR "libserialport not found")
+endif()
+
 add_executable(livelybot_oled_node src/oled_run.cpp ${OLED_NODE_FILE})
 
 ## Rename C++ executable without prefix

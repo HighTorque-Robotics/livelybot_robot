@@ -7,6 +7,7 @@
 #include "sensor_actuator_status.hpp"
 #include <ros/ros.h>
 #include <sensor_msgs/Imu.h>
+#include <sensor_msgs/JointState.h>
 #include <tf/transform_datatypes.h>
 #include "ip_addr.hpp"
 
@@ -30,7 +31,7 @@ int main(int argc, char **argv) {
     ros::Rate r(10.0);
     // 订阅imu_data话题
     ros::Subscriber sub = n.subscribe("/imu/data", 1, imu_callback);
-    ros::Subscriber m_sub = n.subscribe("/joint_state", 1, motor_callback);
+    ros::Subscriber m_sub = n.subscribe("/joint_states", 1, motor_callback);
 
     int i = 0;
     update_ip_addr();
@@ -70,7 +71,7 @@ void imu_callback(const sensor_msgs::Imu::ConstPtr& data) {
     );
     tf::Matrix3x3 rot_mat(q);
     rot_mat.getRPY(roll, pitch, yaw);
-    ROS_INFO("Roll: %.2f, Pitch: %.2f, Yaw: %.2f", roll, pitch, yaw);
+    // ROS_INFO("Roll: %.2f, Pitch: %.2f, Yaw: %.2f", roll, pitch, yaw);
     float rpy[3];
     rpy[0] = roll;
     rpy[1] = pitch;
@@ -95,8 +96,8 @@ void motor_callback(const sensor_msgs::JointState& data)
     unsigned char motor_status[12] = {1,0,1,0,1,1,0,1,1,0,0,1};
     for(int i = 0; i < 12; i++)
     {
-        if(data.position >= 900)
-        {            
+        if(data.position[i] < -900.0)
+        {
             motor_status[i] = 0;
         }
         else
