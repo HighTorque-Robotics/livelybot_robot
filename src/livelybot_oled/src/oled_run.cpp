@@ -13,11 +13,13 @@
 
 #define _2PI_ 6.2831853
 
-Sensor_actuator_status status(2,6);
+Sensor_actuator_status *status;
 
 uint8_t imu_flag = 0;
-
 float rpy[3];
+
+int can_port_num;
+int motor_num[4];
 
 void imu_callback(const sensor_msgs::Imu::ConstPtr& data);
 void motor_callback(const sensor_msgs::JointState& data);
@@ -29,6 +31,32 @@ int main(int argc, char **argv) {
     // 创建节点句柄
     ros::NodeHandle n;
     ros::Rate r(10.0);
+    
+    // 获取配置参数，CAN线与电机数量
+    if (n.getParam("robot/CANboard/No_" + std::to_string(1) + "_CANboard/CANport_num", can_port_num))
+    {
+        ROS_INFO("Robot has %d CAN", can_port_num);
+        for(int i = 0; i < can_port_num; i++)
+        {
+            if (n.getParam("robot/CANboard/No_" + std::to_string(1) + "_CANboard/CANport/CANport_" + std::to_string(i+1) + "/motor_num", motor_num[i]))
+            {
+                //TODO
+                ROS_INFO("can_%d has %d motor", i+1, motor_num[i]);
+            }
+            else
+            {
+                ROS_ERROR("Faile to get params motor_num");
+            }
+        }
+    }
+    else
+    {
+        ROS_ERROR("Faile to get params can_port_num");
+    }
+
+    // 创建电机status的对象
+    status = new Sensor_actuator_status(motor_num[0], motor_num[1], motor_num[2], motor_num[3]);
+
     // 订阅imu_data话题
     ros::Subscriber sub = n.subscribe("/imu/data", 1, imu_callback);
     ros::Subscriber m_sub = n.subscribe("/joint_states", 1, motor_callback);
@@ -48,10 +76,10 @@ int main(int argc, char **argv) {
             update_ip_addr();
         }
         // status.send_motor_status(motor_status);
-        status.send_ip_addr(get_ip_data_u32_all(), 3);
+        status->send_ip_addr(get_ip_data_u32_all(), 3);
         if(imu_flag)
         {
-            status.send_imu_status(0, rpy);
+            status->send_imu_status(0, rpy);
         }
         imu_flag = 1;
     }
@@ -87,7 +115,7 @@ void imu_callback(const sensor_msgs::Imu::ConstPtr& data) {
     //     }
     // }
     // status.send_imu_actuator_status(1, rpy, motor_status);
-    status.send_imu_status(1, rpy);
+    status->send_imu_status(1, rpy);
     imu_flag = 0;
 }
 
@@ -105,6 +133,6 @@ void motor_callback(const sensor_msgs::JointState& data)
             motor_status[i] = 1;
         }
     }
-    status.send_motor_status(motor_status);
+    status->send_motor_status(motor_status);
 }
 

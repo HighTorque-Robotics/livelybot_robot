@@ -23,7 +23,7 @@ int main(int argc, char **argv)
         rb.detect_motor_limit();
         for (motor *m : rb.Motors)
         {
-            m->velocity(vel);
+            // m->velocity(vel);
             auto motor_state = m->get_current_motor_state();
             ROS_INFO("motor:%d, position:%f, velocity:%f, torque:%f", motor_state->ID, motor_state->position, motor_state->velocity, motor_state->torque);
         }

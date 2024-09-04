@@ -1,11 +1,13 @@
 #include "sensor_actuator_status.hpp"
 #include <iostream>
 
-Sensor_actuator_status::Sensor_actuator_status(int can_nums, int motor_nums)
+Sensor_actuator_status::Sensor_actuator_status(int can1_num, int can2_num, int can3_num, int can4_num)
 {
-    this->motor_status.can_nums = can_nums;
-    this->motor_status.motor_nums = motor_nums;
-    this->_ser.setPort("/dev/ttyS1");
+    this->motor_status.can1_num = can1_num;
+    this->motor_status.can2_num = can2_num;
+    this->motor_status.can3_num = can3_num;
+    this->motor_status.can4_num = can4_num;
+    this->_ser.setPort("/dev/ttyS1"); 
     this->_ser.setBaudrate(115200);
     serial::Timeout to = serial::Timeout::simpleTimeout(1000);
     this->_ser.setTimeout(to);
@@ -21,46 +23,12 @@ Sensor_actuator_status::Sensor_actuator_status(int can_nums, int motor_nums)
     {
         this->suc_flag = 1;
     }
-
 }
 
 Sensor_actuator_status::~Sensor_actuator_status()
 {
     this->_ser.close();
 }
-
-void Sensor_actuator_status::send_imu_actuator_status(bool imu_exist, float *rpy, unsigned char *motor_status)
-{
-    this->imu_status.imu_con_sta = imu_exist;
-    memcpy(this->imu_status.rpy, rpy,12);
-    memcpy(this->motor_status.motor_status, motor_status, this->motor_status.can_nums*this->motor_status.motor_nums);
-
-    this->send_buff[0] = 0xA5;
-    this->send_buff[1] = 0x5A;
-    this->send_buff[2] = 15 + this->motor_status.can_nums * this->motor_status.motor_nums;
-    this->send_buff[3] = this->imu_status.imu_con_sta;
-    // + 12
-    for(int i = 0; i < 3; i++)
-    {
-        *(((float*)(&this->send_buff[4]))+i) = this->imu_status.rpy[i];
-    }
-    this->send_buff[16] = this->motor_status.can_nums;
-    this->send_buff[17] = this->motor_status.motor_nums;
-    for(int i = 0; i < this->motor_status.can_nums * this->motor_status.motor_nums; i++)
-    {
-        this->send_buff[18 + i] = this->motor_status.motor_status[i];
-    }
-    this->send_buff[this->send_buff[2] + 3] = 0x66;
-    this->send_buff[this->send_buff[2] + 4] = 0x47;
-    this->send_buff[this->send_buff[2] + 5] = 0x74;
-    for (int i = 0; i <= 32; i ++)
-    {
-        this->_ser.write(&this->send_buff[i], 1);
-        printf("0x%x ", this->send_buff[i]);
-    }
-    std::cout << std::endl;
-}
-
 
 void Sensor_actuator_status::send_imu_status(bool imu_exist, float *rpy)
 {
@@ -86,12 +54,12 @@ void Sensor_actuator_status::send_motor_status(unsigned char *motor_status)
 
     this->send_buff[0] = 0xA5;
     this->send_buff[1] = 0x5A;
-    this->send_buff[2] = 3 + this->motor_status.can_nums * this->motor_status.motor_nums;
+    this->send_buff[2] = 3 + this->motor_status.can1_num + this->motor_status.can2_num + this->motor_status.can3_num + this->motor_status.can4_num;
     this->send_buff[3] = 0x11;      // Motor
 
-    this->send_buff[4] = this->motor_status.can_nums;
-    this->send_buff[5] = this->motor_status.motor_nums;
-    memcpy(&this->send_buff[6], motor_status, this->motor_status.can_nums * this->motor_status.motor_nums);
+    this->send_buff[4] = (this->motor_status.can1_num & 0x0F) | ((this->motor_status.can2_num & 0x0F) << 4);
+    this->send_buff[5] = (this->motor_status.can3_num & 0x0F) | ((this->motor_status.can4_num & 0x0F) << 4);
+    memcpy(&this->send_buff[6], motor_status, this->motor_status.can1_num + this->motor_status.can2_num + this->motor_status.can3_num + this->motor_status.can4_num);
     this->send_buff[this->send_buff[2] + 3] = 0x66;
     this->send_buff[this->send_buff[2] + 4] = 0x47;
     this->send_buff[this->send_buff[2] + 5] = 0x74;

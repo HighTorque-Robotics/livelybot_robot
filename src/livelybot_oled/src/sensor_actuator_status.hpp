@@ -15,9 +15,11 @@ typedef struct
 
 typedef struct
 {
-    int can_nums;
-    int motor_nums;
-    unsigned char motor_status[80];
+    int can1_num;
+    int can2_num;
+    int can3_num;
+    int can4_num;
+    unsigned char motor_status[40];
 }motor_status_s;
 
 class Sensor_actuator_status
@@ -28,7 +30,7 @@ public:
     serial::Serial _ser;
     int suc_flag;
     unsigned char send_buff[64];
-    Sensor_actuator_status(int can_nums, int motor_nums);
+    Sensor_actuator_status(int can1_num, int can2_num, int can3_num, int can4_num);
     ~Sensor_actuator_status();
     void send_imu_actuator_status(bool iomu_exist, float *rpy, unsigned char *m_status);
     void send_imu_status(bool imu_exist, float *rpy);
