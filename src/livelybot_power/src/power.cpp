@@ -13,8 +13,8 @@ int main(int argc, char**argv)
 {
     ros::init(argc, argv, "power_mission");
     ros::NodeHandle n;
-    ros::Rate r(10.0);
-    battery_volt_pub = n.advertise<std_msgs::Float32>("battery_voltage",2);
+    ros::Rate r(2.0);
+    battery_volt_pub = n.advertise<std_msgs::Float32>("battery_voltage", 2);
     // battery_volt_pub_d = n.advertise<sensor_msgs::BatteryState>("battery",2);
     livelybot_can::CAN_Driver can_handler("can1");  
     // can_handler.start();
@@ -49,7 +49,7 @@ void can_recv_parse(int can_id, unsigned char*data, unsigned char dlc)
     data_type = (can_id>>1) & 0x3F;
     append_flag = can_id >> 10;
 
-    printf("接受到CAN数据 ADDR-TYPE-FLAG:%d, %d, %d\n", dev_addr, data_type, append_flag);
+    // printf("接受到CAN数据 ADDR-TYPE-FLAG:%d, %d, %d\n", dev_addr, data_type, append_flag);
 
     if(!append_flag)
     {
@@ -60,10 +60,10 @@ void can_recv_parse(int can_id, unsigned char*data, unsigned char dlc)
                 {
                     case 0x01:      // BMS状态
                     {
-                        printf("cell-v-c-t:%.2fV, %.2fA, %.2f°C\n", (*(int16_t*)&data[0])/100.0f, (*(int16_t*)&data[2])/100.0f, (*(int16_t*)&data[4])/100.0f);
+                        // printf("cell-v-c-t:%.2fV, %.2fA, %.2f°C\n", (*(int16_t*)&data[0])/100.0f, (*(int16_t*)&data[2])/100.0f, (*(int16_t*)&data[4])/100.0f);
                         std_msgs::Float32 msg;
                         msg.data = (*(int16_t*)&data[0])/100.0f;
-                        // battery_volt_pub.publish(msg);
+                        battery_volt_pub.publish(msg);
                         // sensor_msgs::BatteryState battery_state;
                         // battery_state.voltage = (*(int16_t*)&data[0])/100.0f;// # 示例电压值
                         // battery_state.charge = 1.0f; // # 示例电荷量
@@ -84,7 +84,6 @@ void can_recv_parse(int can_id, unsigned char*data, unsigned char dlc)
                 {
                     case 0x01:
                         printf("power-v-c:%.2fV, %.2fA\n", (*(int16_t*)&data[0])/100.0f, (*(int16_t*)&data[2])/100.0f);
-                        
                         break;
                     case 0x02:
                         printf("switch status:%d, %d", data[0], data[1]);

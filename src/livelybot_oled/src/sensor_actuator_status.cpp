@@ -78,3 +78,16 @@ void Sensor_actuator_status::send_ip_addr(unsigned int* ip_data, unsigned char l
     this->send_buff[this->send_buff[2] + 5] = 0x74;
     this->_ser.write(this->send_buff, this->send_buff[2] + 6); // 数据包长度+帧头两个字节
 }
+
+void Sensor_actuator_status::send_battery_volt(float volt)
+{
+    this->send_buff[0] = 0xA5;
+    this->send_buff[1] = 0x5A;
+    this->send_buff[2] = 4 + 1;
+    this->send_buff[3] = 0x13;      // Voltage
+    memcpy(&this->send_buff[4], &volt, 4);
+    this->send_buff[this->send_buff[2] + 3] = 0x66;
+    this->send_buff[this->send_buff[2] + 4] = 0x47;
+    this->send_buff[this->send_buff[2] + 5] = 0x74;
+    this->_ser.write(this->send_buff, this->send_buff[2] + 6);
+}

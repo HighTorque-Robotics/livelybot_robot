@@ -36,5 +36,6 @@ public:
     void send_imu_status(bool imu_exist, float *rpy);
     void send_motor_status(unsigned char* m_status);
     void send_ip_addr(unsigned int* ip_data, unsigned char len);
+    void send_battery_volt(float volt);
 };
 

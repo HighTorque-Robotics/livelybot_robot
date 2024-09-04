@@ -5,6 +5,8 @@
     <param name="yesense_baudrate"  type="int"    value="460800"/>
   </node>
 
+  <node pkg="livelybot_power" type="power_node" name="power_node" output="screen"/>
+
   <node pkg="livelybot_serial" type="test_motor_feedback" name="test_motor_feedback" output="screen"/>
 
   <node pkg="livelybot_oled" type="livelybot_oled_node" name="livelybot_oled_node" output="screen"/>
