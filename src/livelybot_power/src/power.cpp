@@ -13,8 +13,8 @@ int main(int argc, char**argv)
 {
     ros::init(argc, argv, "power_mission");
     ros::NodeHandle n;
-    ros::Rate r(2.0);
-    battery_volt_pub = n.advertise<std_msgs::Float32>("battery_voltage", 2);
+    ros::Rate r(10.0);
+    battery_volt_pub = n.advertise<std_msgs::Float32>("battery_voltage", 1);
     // battery_volt_pub_d = n.advertise<sensor_msgs::BatteryState>("battery",2);
     livelybot_can::CAN_Driver can_handler("can1");  
     // can_handler.start();
