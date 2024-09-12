@@ -16,10 +16,10 @@ int main(int argc, char**argv)
     ros::Rate r(10.0);
     battery_volt_pub = n.advertise<std_msgs::Float32>("battery_voltage", 1);
     // battery_volt_pub_d = n.advertise<sensor_msgs::BatteryState>("battery",2);
-    livelybot_can::CAN_Driver can_handler("can1");  
+    livelybot_can::CAN_Driver can_handler("can0");  
     // can_handler.start();
     can_handler.start_callback(can_recv_parse);
-    // unsigned char data[6] = {1, 2, 3, 4, 5, 6};
+    unsigned char data[6] = {1, 2, 3, 4, 5, 6};
     // for(int i = 0; i < 10; i ++)
     // {
     //     data[2] ++;
@@ -30,6 +30,7 @@ int main(int argc, char**argv)
     while (ros::ok())
     {
         r.sleep();
+        can_handler.send(1, data, 6);
         ros::spinOnce();
     }
     return 0;

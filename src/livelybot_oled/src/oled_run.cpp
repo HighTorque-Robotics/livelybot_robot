@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
-#include <wiringPi.h>
-#include <wiringSerial.h>
+// #include <wiringPi.h>
+// #include <wiringSerial.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include "sensor_actuator_status.hpp"

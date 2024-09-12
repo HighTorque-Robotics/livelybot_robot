@@ -7,7 +7,7 @@ Sensor_actuator_status::Sensor_actuator_status(int can1_num, int can2_num, int c
     this->motor_status.can2_num = can2_num;
     this->motor_status.can3_num = can3_num;
     this->motor_status.can4_num = can4_num;
-    this->_ser.setPort("/dev/ttyS1"); 
+    this->_ser.setPort("/dev/ttyS4"); 
     this->_ser.setBaudrate(115200);
     serial::Timeout to = serial::Timeout::simpleTimeout(1000);
     this->_ser.setTimeout(to);
