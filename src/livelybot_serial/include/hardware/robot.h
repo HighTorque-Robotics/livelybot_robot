@@ -142,7 +142,7 @@ namespace livelybot_serial
             set_port_motor_num(); // 设置通道上挂载的电机数，并获取主控板固件版本号
             chevk_motor_connection();  // 检测电机连接是否正常
 
-            ros::Duration(2.0).sleep();
+            ros::Duration(0.1).sleep();
 
             ROS_INFO("\033[1;32mThe robot has %ld motors\033[0m", Motors.size());
             ROS_INFO("robot init");
@@ -519,6 +519,19 @@ namespace livelybot_serial
                     ROS_ERROR("Motor %d reset to zero position failed.", motor);
                 }
             }
+        }
+
+        void set_motor_runzero()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                for (canboard &cb : CANboards)
+                {
+                    cb.set_motor_runzero();
+                }
+                ros::Duration(0.01).sleep();
+            }
+            ros::Duration(4).sleep();
         }
 
 #ifdef DYNAMIC_CONFIG_ROBOT

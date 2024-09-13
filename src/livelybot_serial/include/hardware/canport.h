@@ -296,6 +296,20 @@ public:
         cdc_tr_message.data.data[0] = 0x7f;
     }
 
+    void set_motor_runzero()
+    {
+        if (cdc_tr_message.head.s.cmd != MODE_RUNZERO)
+        {
+            cdc_tr_message.head.s.head = 0XF7;
+            cdc_tr_message.head.s.cmd = MODE_RUNZERO;
+            cdc_tr_message.head.s.len = 1;
+            memset(&cdc_tr_message.data, 0, cdc_tr_message.head.s.len);
+        }
+        cdc_tr_message.data.data[0] = 0x7f;
+
+        motor_send_2();
+    }
+
     void set_reset()
     {
         if (cdc_tr_message.head.s.cmd != MODE_RESET)

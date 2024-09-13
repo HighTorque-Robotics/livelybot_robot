@@ -104,5 +104,12 @@ public:
             c->motor_send_2();
         }
     }
+    void set_motor_runzero()
+    {
+        for (canport *c : CANport)
+        {
+            c->set_motor_runzero();
+        }
+    }
 };
 #endif

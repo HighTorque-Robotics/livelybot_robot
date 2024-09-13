@@ -20,6 +20,7 @@ int main(int argc, char **argv)
     ros::NodeHandle n;
     ros::Rate r(300);
     livelybot_serial::robot rb;
+    rb.set_motor_runzero();     // 电机上电自动回零
     ros::Publisher pub = n.advertise<std_msgs::Float32MultiArray>("feedback_formulate", 1000);
     ROS_INFO("\033[1;32mSTART\033[0m");
     // ========================== singlethread send =====================
