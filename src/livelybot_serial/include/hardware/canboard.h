@@ -89,9 +89,15 @@ public:
     {
         for (canport *c : CANport)
         {
-            if (c->set_conf_load() != 0)
+            // if (c->set_conf_load() != 0)
+            // {
+            //     return;
+            // }
+            for (int i = 0; i < 5; i++)
             {
-                return;
+                c->set_reset();
+                c->motor_send_2();
+                ros::Duration(0.1).sleep();
             }
             ros::Duration(1).sleep();
             if (c->set_reset_zero() == 0)
@@ -100,8 +106,9 @@ public:
             }
             c->set_reset();
             c->motor_send_2();
-            ros::Duration(5).sleep();
+            ros::Duration(1).sleep();
             c->motor_send_2();
+            ros::Duration(1).sleep();
         }
     }
     void set_motor_runzero()

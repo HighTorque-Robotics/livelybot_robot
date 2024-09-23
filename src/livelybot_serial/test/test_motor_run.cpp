@@ -11,7 +11,7 @@ int main(int argc, char **argv)
     ros::NodeHandle n;
     ros::Rate r(100);
     livelybot_serial::robot rb;
-    rb.set_motor_runzero();     // 电机上电自动回零
+    //rb.set_motor_runzero();     // 电机上电自动回零
     ROS_INFO("\033[1;32mSTART\033[0m");
     // ========================== singlethread send =====================
     float derta = 0.01;//角度
@@ -19,6 +19,7 @@ int main(int argc, char **argv)
     float angle = 0.0;
     int dir = 1;
     int i = 0;
+    ros::Duration(5).sleep();
     while (ros::ok()) // 此用法为逐个电机发送控制指令
     {
         /////////////////////////send
@@ -27,7 +28,7 @@ int main(int argc, char **argv)
         for (motor *m : rb.Motors)
         {   
             i++;
-            ROS_INFO("motor id:%d", i);
+            ROS_INFO("motor id:%d, pos %.2f", i, m->get_current_motor_state()->position);
             // ROS_INFO("id %d pos %f vel %f tqe %f", m->get_current_motor_state()->ID, m->get_current_motor_state()->position, m->get_current_motor_state()->velocity, m->get_current_motor_state()->torque);
             // printf("%4.2f ", m->get_current_motor_state()->position);
             // m->fresh_cmd_int16(angle, 0.05, 1, 200.0, 0, 5, 0.1, 0, 0.5);

@@ -14,7 +14,7 @@ void excu()
     std::vector<std::string> motor_name{"null", "5046", "4538", "5047_36", "5047_9"};
     int cont = 0;
     ros::Rate r(10);
-    rb.set_motor_runzero();     // 电机上电自动回零
+    //rb.set_motor_runzero();     // 电机上电自动回零
     while (ros::ok()) // 此用法为逐个电机发送控制指令
     {
         // ROS_INFO_STREAM("START");

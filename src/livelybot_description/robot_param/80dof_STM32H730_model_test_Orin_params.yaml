@@ -24,101 +24,221 @@ robot:
               id: 1
               name: "L_low_foot"
               num: 1
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor2:
               type: 1
               id: 2
               name: "L_up_foot"
               num: 2
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor3:
               type: 1
               id: 3
               name: "L_calf"
               num: 3
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor4:
               type: 1
               id: 4
               name: "L_hip_pitch"
               num: 4
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor5:
               type: 1
               id: 5
               name: "L_hip_roll"
               num: 5
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor6:
               type: 1
               id: 6
               name: "L_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor7:
               type: 1
               id: 7
               name: "L_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor8:
               type: 1
               id: 8
               name: "L_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor9:
               type: 1
               id: 9
               name: "L_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor10:
               type: 1
               id: 10
               name: "L_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor11:
               type: 1
               id: 11
               name: "L_low_foot"
               num: 1
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor12:
               type: 1
               id: 12
               name: "L_up_foot"
               num: 2
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor13:
               type: 1
               id: 13
               name: "L_calf"
               num: 3
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor14:
               type: 1
               id: 14
               name: "L_hip_pitch"
               num: 4
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor15:
               type: 1
               id: 15
               name: "L_hip_roll"
               num: 5
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor16:
               type: 1
               id: 16
               name: "L_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor17:
               type: 1
               id: 17
               name: "L_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor18:
               type: 1
               id: 18
               name: "L_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor19:
               type: 1
               id: 19
               name: "L_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor20:
               type: 1
               id: 20
               name: "L_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
         CANport_2:
           motor_num: 20
           motor:
@@ -127,101 +247,221 @@ robot:
               id: 1
               name: "R_low_foot"
               num: 1
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor2:
               type: 1
               id: 2
               name: "R_up_foot"
               num: 2
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor3:
               type: 1
               id: 3
               name: "R_calf"
               num: 3
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor4:
               type: 1
               id: 4
               name: "R_hip_pitch"
               num: 4
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor5:
               type: 1
               id: 5
               name: "R_hip_roll"
               num: 5
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor6:
               type: 1
               id: 6
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor7:
               type: 1
               id: 7
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor8:
               type: 1
               id: 8
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor9:
               type: 1
               id: 9
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor10:
               type: 1
               id: 10
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor11:
               type: 1
               id: 11
               name: "R_low_foot"
               num: 1
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor12:
               type: 1
               id: 12
               name: "R_up_foot"
               num: 2
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor13:
               type: 1
               id: 13
               name: "R_calf"
               num: 3
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor14:
               type: 1
               id: 14
               name: "R_hip_pitch"
               num: 4
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor15:
               type: 1
               id: 15
               name: "R_hip_roll"
               num: 5
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor16:
               type: 1
               id: 16
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor17:
               type: 1
               id: 17
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor18:
               type: 1
               id: 18
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor19:
               type: 1
               id: 19
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor20:
               type: 1
               id: 20
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
         CANport_3:
           motor_num: 20
           motor:
@@ -230,101 +470,221 @@ robot:
               id: 1
               name: "R_low_foot"
               num: 1
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor2:
               type: 1
               id: 2
               name: "R_up_foot"
               num: 2
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor3:
               type: 1
               id: 3
               name: "R_calf"
               num: 3
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor4:
               type: 1
               id: 4
               name: "R_hip_pitch"
               num: 4
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor5:
               type: 1
               id: 5
               name: "R_hip_roll"
               num: 5
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor6:
               type: 1
               id: 6
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor7:
               type: 1
               id: 7
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor8:
               type: 1
               id: 8
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor9:
               type: 1
               id: 9
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor10:
               type: 1
               id: 10
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor11:
               type: 1
               id: 11
               name: "R_low_foot"
               num: 1
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor12:
               type: 1
               id: 12
               name: "R_up_foot"
               num: 2
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor13:
               type: 1
               id: 13
               name: "R_calf"
               num: 3
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor14:
               type: 1
               id: 14
               name: "R_hip_pitch"
               num: 4
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor15:
               type: 1
               id: 15
               name: "R_hip_roll"
               num: 5
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor16:
               type: 1
               id: 16
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor17:
               type: 1
               id: 17
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor18:
               type: 1
               id: 18
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor19:
               type: 1
               id: 19
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor20:
               type: 1
               id: 20
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
         CANport_4:
           motor_num: 20
           motor:
@@ -333,101 +693,221 @@ robot:
               id: 1
               name: "R_low_foot"
               num: 1
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor2:
               type: 1
               id: 2
               name: "R_up_foot"
               num: 2
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor3:
               type: 1
               id: 3
               name: "R_calf"
               num: 3
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor4:
               type: 1
               id: 4
               name: "R_hip_pitch"
               num: 4
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor5:
               type: 1
               id: 5
               name: "R_hip_roll"
               num: 5
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor6:
               type: 1
               id: 6
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor7:
               type: 1
               id: 7
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor8:
               type: 1
               id: 8
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor9:
               type: 1
               id: 9
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor10:
               type: 1
               id: 10
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor11:
               type: 1
               id: 11
               name: "R_low_foot"
               num: 1
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor12:
               type: 1
               id: 12
               name: "R_up_foot"
               num: 2
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor13:
               type: 1
               id: 13
               name: "R_calf"
               num: 3
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor14:
               type: 1
               id: 14
               name: "R_hip_pitch"
               num: 4
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor15:
               type: 1
               id: 15
               name: "R_hip_roll"
               num: 5
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor16:
               type: 1
               id: 16
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor17:
               type: 1
               id: 17
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor18:
               type: 1
               id: 18
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor19:
               type: 1
               id: 19
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
             motor20:
               type: 1
               id: 20
               name: "R_hip_yaw"
               num: 6
+              pos_limit_enable: false
+              pos_upper: 5
+              pos_lower: -5
+              tor_limit_enable: false
+              tor_upper: 5
+              tor_lower: -3
 
 
 
