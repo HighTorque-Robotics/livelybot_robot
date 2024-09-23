@@ -9,6 +9,7 @@
 #include <sensor_msgs/Imu.h>
 #include <sensor_msgs/JointState.h>
 #include <std_msgs/Float32.h>
+#include <std_msgs/Int32.h>
 #include <tf/transform_datatypes.h>
 #include "ip_addr.hpp"
 
@@ -25,6 +26,7 @@ int motor_num[4];
 void imu_callback(const sensor_msgs::Imu::ConstPtr& data);
 void motor_callback(const sensor_msgs::JointState& data);
 void battery_voltage_callback(const std_msgs::Float32::ConstPtr& msg);
+void fsm_state_callback(const std_msgs::Int32::ConstPtr& msg);
 
 int main(int argc, char **argv) {
     // 初始化ROS节点
@@ -61,9 +63,9 @@ int main(int argc, char **argv) {
 
     // 订阅imu_data话题
     ros::Subscriber sub = n.subscribe("/imu/data", 1, imu_callback);
-    ros::Subscriber m_sub = n.subscribe("/joint_states", 1, motor_callback);
+    ros::Subscriber m_sub = n.subscribe("/joint_states", 1, motor_callback); // error_joint_states
     ros::Subscriber battery_volt_sub = n.subscribe("/battery_voltage", 1, battery_voltage_callback);
-    
+    ros::Subscriber fsm_state_sub = n.subscribe("/fsm_state", 1, fsm_state_callback);
     int i = 0;
     update_ip_addr();
     // unsigned char motor_status[12] = {1,0,1,0,1,1,0,1,1,0,0,1};
@@ -143,4 +145,10 @@ void battery_voltage_callback(const std_msgs::Float32::ConstPtr& msg)
 {
     ROS_INFO("receive voltage:%f", msg->data);
     status->send_battery_volt(msg->data);
+}
+
+void fsm_state_callback(const std_msgs::Int32::ConstPtr& msg)
+{
+    ROS_INFO("receive fsm_state:%d", msg->data);
+    status->send_fsm_state(msg->data);
 }

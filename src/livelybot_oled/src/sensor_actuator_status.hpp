@@ -37,5 +37,6 @@ public:
     void send_motor_status(unsigned char* m_status);
     void send_ip_addr(unsigned int* ip_data, unsigned char len);
     void send_battery_volt(float volt);
+    void send_fsm_state(int32_t fsm_state);
 };
 

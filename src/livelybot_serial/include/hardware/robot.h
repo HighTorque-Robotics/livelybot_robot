@@ -150,7 +150,7 @@ namespace livelybot_serial
             chevk_motor_connection();  // 检测电机连接是否正常
 
             publish_joint_state=1;
-            joint_state_pub_ = n.advertise<sensor_msgs::JointState>("joint_states", 10);
+            joint_state_pub_ = n.advertise<sensor_msgs::JointState>("error_joint_states", 10);
             pub_thread_ = std::thread(&robot::publishJointStates, this);
 
 

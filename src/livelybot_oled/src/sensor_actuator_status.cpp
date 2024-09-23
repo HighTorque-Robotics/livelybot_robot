@@ -91,3 +91,16 @@ void Sensor_actuator_status::send_battery_volt(float volt)
     this->send_buff[this->send_buff[2] + 5] = 0x74;
     this->_ser.write(this->send_buff, this->send_buff[2] + 6);
 }
+
+void Sensor_actuator_status::send_fsm_state(int32_t fsm_state)
+{
+    this->send_buff[0] = 0xA5;
+    this->send_buff[1] = 0x5A;
+    this->send_buff[2] = 4 + 1;
+    this->send_buff[3] = 0x14;      // fsm_state
+    memcpy(&this->send_buff[4], &fsm_state, 4);
+    this->send_buff[this->send_buff[2] + 3] = 0x66;
+    this->send_buff[this->send_buff[2] + 4] = 0x47;
+    this->send_buff[this->send_buff[2] + 5] = 0x74;
+    this->_ser.write(this->send_buff, this->send_buff[2] + 6);
+}
