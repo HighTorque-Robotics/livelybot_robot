@@ -14,6 +14,7 @@
 #include <libserialport.h>
 #include <dirent.h>
 #include <algorithm>
+#include <sensor_msgs/JointState.h>
 #endif
 namespace livelybot_serial
 {
@@ -26,7 +27,10 @@ namespace livelybot_serial
         std::vector<canboard> CANboards;
         std::vector<std::string> str;
         std::vector<lively_serial *> ser;
-        float SDK_version2 = 3.4; // SDK版本
+        float SDK_version2 = 3.5; // SDK版本
+        std::atomic<bool> publish_joint_state;
+        ros::Publisher joint_state_pub_;
+        std::thread pub_thread_;
 #ifdef DYNAMIC_CONFIG_ROBOT
         std::vector<double> config_slope_posistion;
         std::vector<double> config_offset_posistion;
@@ -142,6 +146,10 @@ namespace livelybot_serial
             set_port_motor_num(); // 设置通道上挂载的电机数，并获取主控板固件版本号
             chevk_motor_connection();  // 检测电机连接是否正常
 
+            publish_joint_state=1;
+            joint_state_pub_ = n.advertise<sensor_msgs::JointState>("error_joint_states", 10);
+            pub_thread_ = std::thread(&robot::publishJointStates, this);
+
             ros::Duration(0.1).sleep();
 
             ROS_INFO("\033[1;32mThe robot has %ld motors\033[0m", Motors.size());
@@ -167,12 +175,52 @@ namespace livelybot_serial
         }
         ~robot()
         {
+            publish_joint_state=0;
             set_stop();
             motor_send_2();
             for (auto &thread : ser_recv_threads)
             {
                 if (thread.joinable())
                     thread.join();
+            }if(pub_thread_.joinable())
+            {
+                pub_thread_.join(); 
+            }
+        }
+
+        void publishJointStates()
+        {
+            ros::Rate rate(10); 
+            while (publish_joint_state && ros::ok())
+            {
+                sensor_msgs::JointState joint_state_msg;
+
+                // Fill in the joint state message
+                joint_state_msg.header.stamp = ros::Time::now();
+
+                for (motor *m : Motors)
+                {    
+                    joint_state_msg.name.push_back(m->get_motor_name());
+                    motor_back_t* data_ptr=m->get_current_motor_state();
+                    ros::Time  now_time= ros::Time::now();
+                    if(now_time.toSec()-data_ptr->time>0.1)
+                    {
+                        joint_state_msg.position.push_back(-999);
+                        joint_state_msg.velocity.push_back(0);
+                        joint_state_msg.effort.push_back(0);
+                    }
+                    else
+                    {
+                        joint_state_msg.position.push_back(data_ptr->position);
+                        joint_state_msg.velocity.push_back(data_ptr->velocity);
+                        joint_state_msg.effort.push_back(data_ptr->torque);
+                    }
+                }
+                // Publish the joint state message
+                joint_state_pub_.publish(joint_state_msg);
+
+                // Sleep to maintain the loop rate
+                rate.sleep();
             }
         }
         void detect_motor_limit()
@@ -409,7 +457,7 @@ namespace livelybot_serial
             std::vector<int> port;
             std::vector<int> id;
 
-#define MAX_DELAY 10000 // 单位 ms
+#define MAX_DELAY 2000 // 单位 ms
 
             ROS_INFO("Detecting motor connection");
             while (t++ < MAX_DELAY)
