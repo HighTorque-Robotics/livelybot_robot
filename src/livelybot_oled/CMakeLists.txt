@@ -149,6 +149,7 @@ if(NOT SERIALPORT_LIBRARY)
 endif()
 
 add_executable(livelybot_oled_node src/oled_run.cpp ${OLED_NODE_FILE})
+add_executable(livelybot_oled_hd_test src/oled_hardware_test.cpp ${OLED_NODE_FILE})
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -165,6 +166,7 @@ add_executable(livelybot_oled_node src/oled_run.cpp ${OLED_NODE_FILE})
 #   ${catkin_LIBRARIES}
 # )
 target_link_libraries(livelybot_oled_node ${catkin_LIBRARIES})
+target_link_libraries(livelybot_oled_hd_test ${catkin_LIBRARIES})
 
 #############
 ## Install ##
