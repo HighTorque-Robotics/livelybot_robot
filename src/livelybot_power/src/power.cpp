@@ -3,11 +3,16 @@
 #include <ros/ros.h>
 #include <std_msgs/Float32.h>
 #include <sensor_msgs/BatteryState.h>
+#include <livelybot_power/Power_switch.h>
 
 ros::Publisher battery_volt_pub;
-ros::Publisher battery_volt_pub_d;
+ros::Publisher power_switch_pub;
+ros::Subscriber power_switch_sub;
+
+livelybot_can::CAN_Driver can_handler("can0");  
 
 void can_recv_parse(int id, unsigned char*data, unsigned char len);
+void power_switch_callback(const livelybot_power::Power_switch& msg);
 
 int main(int argc, char**argv)
 {
@@ -15,22 +20,14 @@ int main(int argc, char**argv)
     ros::NodeHandle n;
     ros::Rate r(10.0);
     battery_volt_pub = n.advertise<std_msgs::Float32>("battery_voltage", 1);
-    // battery_volt_pub_d = n.advertise<sensor_msgs::BatteryState>("battery",2);
-    livelybot_can::CAN_Driver can_handler("can0");  
-    // can_handler.start();
+    power_switch_pub = n.advertise<livelybot_power::Power_switch>("power_switch_state", 1);
+    power_switch_sub = n.subscribe("power_switch_control", 1, power_switch_callback);
     can_handler.start_callback(can_recv_parse);
-    unsigned char data[6] = {1, 2, 3, 4, 5, 6};
-    // for(int i = 0; i < 10; i ++)
-    // {
-    //     data[2] ++;
-    //     can_handler.send(1, data, 6);
-    //     std::cout << "send:" << i << std::endl;
-    //     usleep(1000000);
-    // }
+    // unsigned char data[6] = {1, 2, 3, 4, 5, 6};
     while (ros::ok())
     {
         r.sleep();
-        can_handler.send(1, data, 6);
+        // can_handler.send(1, data, 6);
         ros::spinOnce();
     }
     return 0;
@@ -87,7 +84,11 @@ void can_recv_parse(int can_id, unsigned char*data, unsigned char dlc)
                         printf("power-v-c:%.2fV, %.2fA\n", (*(int16_t*)&data[0])/100.0f, (*(int16_t*)&data[2])/100.0f);
                         break;
                     case 0x02:
-                        printf("switch status:%d, %d", data[0], data[1]);
+                        // printf("switch status:%d, %d\r\n", data[0], data[1]);
+                        livelybot_power::Power_switch power_switch_msg;
+                        power_switch_msg.control_switch = data[0];
+                        power_switch_msg.control_switch = data[1];
+                        power_switch_pub.publish(power_switch_msg);
                         break;
                 }
                 break;
@@ -95,4 +96,15 @@ void can_recv_parse(int can_id, unsigned char*data, unsigned char dlc)
                 break;
         }
     }
+}
+
+void power_switch_callback(const livelybot_power::Power_switch& msg)
+{
+    uint32_t can_id = (ORANGEPI_ADDR<<7) | (1 << 1) | 0;
+    uint8_t data[2];
+    
+    data[0] = msg.control_switch;
+    data[1] = msg.power_switch;
+
+    can_handler.send(can_id, data, 2);
 }
