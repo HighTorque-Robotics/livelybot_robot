@@ -4,8 +4,10 @@
 #include <std_msgs/Float32.h>
 #include <sensor_msgs/BatteryState.h>
 #include <livelybot_power/Power_switch.h>
+#include <livelybot_power/Power_detect.h>
 
 ros::Publisher battery_volt_pub;
+ros::Publisher power_detect_pub;
 ros::Publisher power_switch_pub;
 ros::Subscriber power_switch_sub;
 
@@ -21,13 +23,12 @@ int main(int argc, char**argv)
     ros::Rate r(10.0);
     battery_volt_pub = n.advertise<std_msgs::Float32>("battery_voltage", 1);
     power_switch_pub = n.advertise<livelybot_power::Power_switch>("power_switch_state", 1);
+    power_detect_pub = n.advertise<livelybot_power::Power_detect>("power_detect_state", 1);
     power_switch_sub = n.subscribe("power_switch_control", 1, power_switch_callback);
     can_handler.start_callback(can_recv_parse);
-    // unsigned char data[6] = {1, 2, 3, 4, 5, 6};
     while (ros::ok())
     {
         r.sleep();
-        // can_handler.send(1, data, 6);
         ros::spinOnce();
     }
     return 0;
@@ -81,15 +82,24 @@ void can_recv_parse(int can_id, unsigned char*data, unsigned char dlc)
                 switch(data_type)
                 {
                     case 0x01:
-                        printf("power-v-c:%.2fV, %.2fA\n", (*(int16_t*)&data[0])/100.0f, (*(int16_t*)&data[2])/100.0f);
+                    {
+                        // printf("power-v-c:%.2fV, %.2fA\n", (*(int16_t*)&data[0])/100.0f, (*(int16_t*)&data[2])/100.0f);
+                        livelybot_power::Power_detect power_detect_msg;
+                        power_detect_msg.voltage = (*(int16_t*)&data[0])/100.0f;
+                        power_detect_msg.current = (*(int16_t*)&data[2])/100.0f;
+                        power_detect_msg.power = power_detect_msg.voltage * power_detect_msg.current;
+                        power_detect_pub.publish(power_detect_msg);
                         break;
+                    }
                     case 0x02:
+                    {
                         // printf("switch status:%d, %d\r\n", data[0], data[1]);
                         livelybot_power::Power_switch power_switch_msg;
                         power_switch_msg.control_switch = data[0];
                         power_switch_msg.control_switch = data[1];
                         power_switch_pub.publish(power_switch_msg);
                         break;
+                    }
                 }
                 break;
             default:

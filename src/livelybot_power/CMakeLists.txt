@@ -54,6 +54,7 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
   FILES
   Power_switch.msg
+  Power_detect.msg
 )
 
 ## Generate services in the 'srv' folder
