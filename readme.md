@@ -51,17 +51,22 @@
     * 添加执行权限：`chmod -R 777 test_motor_run.sh`;
     * 执行电机测试程序`./test_motor_run.sh`。
 
-2. 电机控制测试2
+3. 电机控制测试2
     * 准备主控板和电机若干；
     * 根据配置文件`lively_description/robot_param/6dof_STM32H730_model_test_Orin_params.yaml`中的配置信息，在can0上连接3个电机，电机ID分别为`1,2,3`，在can1总线上连接3个电机，电机ID分别为`1,2,3`。
     * 修改配置文件`livelybot_description.launch`中的参数，将`dof_type`设置为`6`；
     * 执行电机测试程序`./test_motor_run.sh`。
 
-2. 电机数据反馈测试
+4. 电机数据反馈测试
     * 准备主控板和电机若干；
     * 根据配置文件`lively_description/robot_param/6dof_STM32H730_model_test_Orin_params.yaml`中的配置信息，在can0上连接3个电机，电机ID分别为`1,2,3`，在can1总线上连接3个电机，电机ID分别为`1,2,3`。
     * 修改配置文件`livelybot_description.launch`中的参数，将`dof_type`设置为`6`；
     * 执行电机测试程序`./test_motor_feedback.sh`。
+
+5. 背板屏测试
+    * 连接好背板屏硬件之后，执行如下命令，运行`livelybot_oled_hd_test`节点;
+    ```rosrun livelybot_oled livelybot_oled_hd_test```
+    * 背板屏所有界面都会显示正常的内容。
 
 ### 五、IMU信息读取
 1. 在`livelybot_robot`目录下，执行命令`source devel/setup.bash`;
