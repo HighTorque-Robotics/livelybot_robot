@@ -139,7 +139,7 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/livelybot_power_node.cpp)
 add_executable(power_node src/power.cpp src/livelybot_can_driver.cpp)
-
+add_dependencies(power_node ${catkin_EXPORTED_TARGETS} livelybot_power_gencpp)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
