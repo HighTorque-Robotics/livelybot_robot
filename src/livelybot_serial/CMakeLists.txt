@@ -49,11 +49,7 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 # test
-add_executable(lvbot_test src/serial_t.cpp ${serial_SRCS})
-add_dependencies(lvbot_test ${PROJECT_NAME})
-target_link_libraries(lvbot_test ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
-
-add_executable(ik_run src/ik_run.cpp ${serial_SRCS})
+add_executable(ik_run test/test_ik_run.cpp ${serial_SRCS})
 add_dependencies(ik_run ${PROJECT_NAME})
 target_link_libraries(ik_run ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 
