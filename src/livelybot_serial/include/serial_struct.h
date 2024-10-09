@@ -1,12 +1,11 @@
 #ifndef _SERIAL_STRUCT_H_
 #define _SERIAL_STRUCT_H_
 #include <stdint.h>
-#include "motor_struct.h"
 #include "crc/crc16.h"
 #include "crc/crc8.h"
 
 
-#define  CDC_TR_MESSAGE_DATA_LEN  256
+#define  CDC_TR_MESSAGE_DATA_LEN    256
 
 
 #define  MODE_POSITION              0X80
@@ -34,31 +33,8 @@
 #define  MODE_RUNZERO               0X09  // 上电自动回零
 
 
-
-
 #pragma pack(1)
-typedef struct
-{
-    uint8_t head; //1
-    uint8_t cmd; //1
-    uint16_t data_len; //2
-    uint8_t CRC8;  //1
-}SOF_t; //5
-typedef struct
-{
-    uint8_t id;
-    int16_t pos;
-    int16_t val;
-    int16_t tqe;
-}motor_state_t;
-typedef struct
-{
-    motor_state_t motor_state[6];
-}motor_state_6_t;
-#pragma pack()
 
-
-#pragma pack(1)
 typedef struct 
 {
     int16_t pos;
@@ -155,6 +131,15 @@ typedef struct
     cdc_tr_message_data_s data;
 } cdc_tr_message_s;
 
+
+typedef struct motor_back_struct
+{
+    double time;
+    uint8_t ID;
+    float position;
+    float velocity;
+    float torque;
+} motor_back_t;
 
 #pragma pack()
 

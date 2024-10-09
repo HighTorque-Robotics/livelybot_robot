@@ -7,7 +7,7 @@ void lively_serial::recv_1for6_42()
 {
     uint8_t CRC8 = 0;
     uint16_t CRC16 = 0;
-    SOF_t SOF = {0};
+    cdc_tr_message_head_data_s SOF = {0};
     cdc_tr_message_data_s cdc_rx_message_data = {0};
     while (ros::ok() && init_flag)
     {
@@ -15,11 +15,11 @@ void lively_serial::recv_1for6_42()
         if (SOF.head == 0xF7)      //  head
         {
             _ser.read(&(SOF.cmd), 4);
-            if (SOF.CRC8 == Get_CRC8_Check_Sum((uint8_t *)&(SOF.cmd), 3, 0xFF)) // cmd_id
+            if (SOF.crc8 == Get_CRC8_Check_Sum((uint8_t *)&(SOF.cmd), 3, 0xFF)) // cmd_id
             {
                 _ser.read((uint8_t *)&CRC16, 2);
-                _ser.read((uint8_t *)&cdc_rx_message_data, SOF.data_len);
-                if (CRC16 != crc_ccitt(0xFFFF, (const uint8_t *)&cdc_rx_message_data, SOF.data_len))
+                _ser.read((uint8_t *)&cdc_rx_message_data, SOF.len);
+                if (CRC16 != crc_ccitt(0xFFFF, (const uint8_t *)&cdc_rx_message_data, SOF.len))
                 {
                     memset(&cdc_rx_message_data, 0, sizeof(cdc_rx_message_data) / sizeof(int));
                 }
@@ -38,7 +38,7 @@ void lively_serial::recv_1for6_42()
                         case (MODE_CONF_WRITE):
                         case (MODE_CONF_LOAD):
                             *p_mode_flag = SOF.cmd;
-                            for (int i = 0; i < SOF.data_len; i++)
+                            for (int i = 0; i < SOF.len; i++)
                             {
                                 // printf("0x%02X ", cdc_rx_message_data.data[i]);
                                 p_motor_id->insert(cdc_rx_message_data.data[i]);
@@ -51,7 +51,7 @@ void lively_serial::recv_1for6_42()
                             break;
 
                         case(MODE_MOTOR_STATE):
-                            for (size_t i = 0; i < SOF.data_len / sizeof(cdc_rx_motor_state_s); i++)
+                            for (size_t i = 0; i < SOF.len / sizeof(cdc_rx_motor_state_s); i++)
                             {
                                 auto it = Map_Motors_p.find(cdc_rx_message_data.motor_state[i].id);
                                 if (it != Map_Motors_p.end())
