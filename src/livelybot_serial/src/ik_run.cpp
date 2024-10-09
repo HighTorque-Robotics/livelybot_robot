@@ -131,7 +131,7 @@ int main(int argc, char **argv)
             }
         }
         // rb.Motors[9]->fresh_cmd_int16(0.2, 0.0, 0.0, 1.5, 0.01, 0, 0, 0);
-        rb.motor_send();
+        rb.motor_send_2();
         ////////////////////////recv
         for (size_t i = 0; i < n_motors; i++)
         {

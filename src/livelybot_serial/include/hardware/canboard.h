@@ -10,8 +10,6 @@ private:
     int CANport_num;
     ros::NodeHandle n;
     std::vector<canport*> CANport;
-    // std::vector<motor> motor;
-    // std::vector<std::shared_ptr<canport>> CANport;
 
 public:
     canboard(int _CANboard_ID, std::vector<lively_serial *> *ser)
@@ -39,13 +37,6 @@ public:
         for (canport *c : CANport)
         {
             _CANport->push_back(c);
-        }
-    }
-    void motor_send()
-    {
-        for (canport *c : CANport)
-        {
-            c->motor_send();
         }
     }
     void motor_send_2()
@@ -89,10 +80,6 @@ public:
     {
         for (canport *c : CANport)
         {
-            // if (c->set_conf_load() != 0)
-            // {
-            //     return;
-            // }
             for (int i = 0; i < 5; i++)
             {
                 c->set_reset();

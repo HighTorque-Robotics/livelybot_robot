@@ -13,8 +13,6 @@ int main(int argc, char **argv)
     livelybot_serial::robot rb;
     ROS_INFO("\033[1;32mSTART\033[0m");
     // ========================== singlethread send =====================
-    // rb.test_ser_motor();
-    // while (0)
     while (ros::ok()) // 此用法为逐个电机发送控制指令
     {
         // ROS_INFO_STREAM("START");
@@ -23,7 +21,7 @@ int main(int argc, char **argv)
         // {
             // m->fresh_cmd_int16(0.0, 0.0, 0.0, 0.0, 0.0, 0, 0, 0);
         // }
-        rb.motor_send();
+        rb.motor_send_2();
         ////////////////////////recv
         for (motor *m : rb.Motors)
         {
@@ -34,25 +32,6 @@ int main(int argc, char **argv)
         // ROS_INFO_STREAM("END"); //
         r.sleep();
     }
-
-
-
-    // ========弃用=========== multithread send =====================
-    // rb.init_mutithread_send();
-    // while (ros::ok())// 此用法为逐个电机多个串口并行发送控制指令
-    // {
-    //     // ROS_INFO_STREAM("START");
-    //     ROS_INFO("===0===");
-    //     for (motor &m : rb.Motors)
-    //     {
-    //        m.fresh_cmd(0.0, 0.0, 0.0, 0.0, 0.0);
-    //     }
-    //     rb.enable_send_multithread();
-    //     // rb.CANPorts[0].enable_send_multithread();
-    //     cv.notify_all(); // 通知子线程可以发送数据了
-    //     ROS_INFO_STREAM("note"); // STEP2 -> END 1.7ms  START -> END 1.71
-    //     r.sleep();
-    // }
 
     ros::spin();
     return 0;

@@ -21,8 +21,8 @@ namespace livelybot_serial
     class robot
     {
     private:
-        std::string robot_name, Serial_Type, CAN_type, CANboard_type, Serial_allocate;
-        int arm_dof, leg_dof, CANboard_num, Seial_baudrate, SDK_version;
+        std::string robot_name, Serial_Type, CANboard_type;
+        int CANboard_num, Seial_baudrate, SDK_version;
         ros::NodeHandle n;
         std::vector<canboard> CANboards;
         std::vector<std::string> str;
@@ -31,6 +31,7 @@ namespace livelybot_serial
         std::atomic<bool> publish_joint_state;
         ros::Publisher joint_state_pub_;
         std::thread pub_thread_;
+
 #ifdef DYNAMIC_CONFIG_ROBOT
         std::vector<double> config_slope_posistion;
         std::vector<double> config_offset_posistion;
@@ -41,8 +42,8 @@ namespace livelybot_serial
         std::vector<double> config_rkp;
         std::vector<double> config_rkd;
         dynamic_reconfigure::Server<livelybot_serial::robot_dynamic_config_20Config> dr_srv_;
-
 #endif
+
     public:
         std::vector<motor *> Motors;
         // std::vector<std::shared_ptr<canport>> CANPorts;
@@ -110,28 +111,17 @@ namespace livelybot_serial
             {
                 ROS_ERROR("Faile to get params Serial_Type");
             }
-            if (n.getParam("robot/Serial_allocate", Serial_allocate))
-            {
-                // ROS_INFO("Got params Serial_Type: %s",Serial_Type.c_str());
-            }
-            else
-            {
-                ROS_ERROR("Faile to get params Serial_allocate");
-            }
 
             ROS_INFO("\033[1;32mGot params SDK_version: %.1fv\033[0m", SDK_version2);
             ROS_INFO("\033[1;32mThe robot name is %s\033[0m", robot_name.c_str());
             ROS_INFO("\033[1;32mThe robot has %d CANboards\033[0m", CANboard_num);
             ROS_INFO("\033[1;32mThe CANboard type is %s\033[0m", CANboard_type.c_str());
             ROS_INFO("\033[1;32mThe Serial type is %s\033[0m", Serial_Type.c_str());
-            ROS_INFO("\033[1;32mThe Serial allocate type is %s\033[0m", Serial_allocate.c_str());
             init_ser();
-            // if (Serial_allocate == "1for2")
+
+            for (size_t i = 1; i <= CANboard_num; i++)
             {
-                for (size_t i = 1; i <= CANboard_num; i++) // 一个CANboard使用两个串口
-                {
-                    CANboards.push_back(canboard(i, &ser));
-                }
+                CANboards.push_back(canboard(i, &ser));
             }
 
             for (canboard &cb : CANboards)
@@ -172,6 +162,7 @@ namespace livelybot_serial
             cb = boost::bind(&robot::configCallback, this, _1, _2);
             dr_srv_.setCallback(cb);
 #endif
+
         }
         ~robot()
         {
@@ -182,7 +173,9 @@ namespace livelybot_serial
             {
                 if (thread.joinable())
                     thread.join();
-            }if(pub_thread_.joinable())
+            }
+            
+            if(pub_thread_.joinable())
             {
                 pub_thread_.join(); 
             }
@@ -249,14 +242,6 @@ namespace livelybot_serial
             }
         }
 
-        void motor_send()
-        {
-            for (canboard &cb : CANboards)
-            {
-                cb.motor_send();
-                // ROS_INFO("ok");
-            }
-        }
         void motor_send_2()
         {
             if(!motor_position_limit_flag && !motor_torque_limit_flag)
@@ -410,24 +395,16 @@ namespace livelybot_serial
             
             for (size_t i = 0; i < str.size(); i++)
             {
-                lively_serial *s = new lively_serial(&str[i], Seial_baudrate, 1);
+                lively_serial *s = new lively_serial(&str[i], Seial_baudrate);
                 ser.push_back(s);
                 if (SDK_version == 2)
                 {
-                    /* code */
                     ser_recv_threads.push_back(std::thread(&lively_serial::recv_1for6_42, s));
                 }
                 else
                 {
                     ROS_ERROR("SDK_version != 2");
                 }
-            }
-        }
-        void test_ser_motor()
-        {
-            for (lively_serial *s : ser)
-            {
-                s->test_ser_motor();
             }
         }
 

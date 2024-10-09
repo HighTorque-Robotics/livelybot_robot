@@ -34,24 +34,8 @@
 #define  MODE_RUNZERO               0X09  // 上电自动回零
 
 
-/* struct */
-#pragma pack(1)
-typedef struct cdc_acm_tx_message_struct
-{
-    uint8_t head[2]; // 0xFD 0xFE
-    motor_back_raw_t motor_back_raw;
-    uint16_t crc16;
-} cdc_acm_tx_message_t;
 
-typedef struct cdc_acm_rx_message_struct
-{
-    uint8_t head[2]; // 0xFE 0xFD
-    motor_cmd_t motor_cmd;
-    uint16_t crc16;
-} cdc_acm_rx_message_t;
 
-#pragma pack()
-/* class*/
 #pragma pack(1)
 typedef struct
 {
@@ -72,8 +56,9 @@ typedef struct
     motor_state_t motor_state[6];
 }motor_state_6_t;
 #pragma pack()
-#pragma pack(1)
 
+
+#pragma pack(1)
 typedef struct 
 {
     int16_t pos;

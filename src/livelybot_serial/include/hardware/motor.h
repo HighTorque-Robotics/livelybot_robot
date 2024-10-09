@@ -54,7 +54,6 @@ public:
     motor_pos_val_tqe_rpd_s cmd_int16_5param;
     int pos_limit_flag = 0;     // 0 表示正常，1 表示超出上限， -1 表示超出下限
     int tor_limit_flag = 0;     // 0 表示正常，1 表示超出上限
-    cdc_acm_rx_message_t cmd;
     motor(int _motor_num, int _CANport_num, int _CANboard_num, cdc_tr_message_s *_p_cdc_tx_message, int _id_max) : CANport_num(_CANport_num), CANboard_num(_CANboard_num), p_cdc_tx_message(_p_cdc_tx_message), id_max(_id_max)
     {
         if (n.getParam("robot/CANboard/No_" + std::to_string(_CANboard_num) + "_CANboard/CANport/CANport_" + std::to_string(_CANport_num) + "/motor/motor" + std::to_string(_motor_num) + "/name", motor_name))
@@ -151,12 +150,7 @@ public:
             ROS_ERROR("Faile to get params control_type");
         }
         set_motor_type(type);
-        memset(&cmd, 0, sizeof(cmd));
-        memset(&data, 0, sizeof(data));
-        cmd.motor_cmd.ID = id;
-        cmd.head[0] = 0xFE;
         data.ID = id;
-        // iid = id - 1;
         data.position = 999.0f;
     }
     ~motor() {}
@@ -216,7 +210,6 @@ public:
     }
     int get_motor_belong_canport() { return CANport_num; }
     int get_motor_belong_canboard() { return CANboard_num; }
-    cdc_acm_rx_message_t *return_cmd_p() { return &cmd; }
     motor_pos_val_tqe_rpd_s *return_pos_val_tqe_rpd_p() { return &cmd_int16_5param; }
     size_t return_size_motor_pos_val_tqe_rpd_s() { return sizeof(motor_pos_val_tqe_rpd_s); }
     motor_back_t *get_current_motor_state() { return &data; }

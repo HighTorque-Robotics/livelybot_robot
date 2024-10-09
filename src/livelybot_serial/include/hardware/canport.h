@@ -8,22 +8,20 @@
 #include <unordered_set>
 #include <iostream>
 
+
+#define  PORT_MOTOR_NUM_MAX  30
+
 class canport
 {
 private:
     int motor_num;
-    int CANport_num;
     ros::NodeHandle n;
     std::vector<motor *> Motors;
     std::map<int, motor *> Map_Motors_p;
-    bool sendEnabled;
     int canboard_id, canport_id;
-    std::vector<motor_back_t *> Motor_data;
     lively_serial *ser;
     cdc_tr_message_s cdc_tr_message;
     int id_max = 0;
-    int control_type = 0;
-    int motor_num_max = 30;
     float port_version = 0.0f;
     std::unordered_set<int> motors_id;
     int mode_flag = 0;
@@ -43,9 +41,9 @@ public:
             ROS_ERROR("Faile to get params motor_num");
         }
 
-        if (motor_num_max < motor_num)
+        if (PORT_MOTOR_NUM_MAX < motor_num)
         {
-            ROS_ERROR("Too many motors, Supports up to %d motors, but there are actually %d motors", motor_num_max, motor_num);
+            ROS_ERROR("Too many motors, Supports up to %d motors, but there are actually %d motors", PORT_MOTOR_NUM_MAX, motor_num);
             exit(-1);
         }        
 
@@ -76,16 +74,10 @@ public:
         ser->init_map_motor(&Map_Motors_p);
         ser->port_version_init(&port_version);
         ser->port_motors_id_init(&motors_id, &mode_flag);
-        // ser->test_ser_motor();
-        sendEnabled = false;
-        // std::thread(&canport::send, this);
     }
     ~canport()
     {
-        // for (motor_back_t* m:Motor_data)
-        // {
-        //     delete m;
-        // }
+
     }
     float set_motor_num()
     {
@@ -417,19 +409,6 @@ public:
         for (motor *m : Motors)
         {
             _Motors->push_back(m);
-        }
-    }
-    void push_motor_data()
-    {
-        for (motor_back_t *r : Motor_data)
-        {
-        }
-    }
-    void motor_send()
-    {
-        for (motor *m : Motors)
-        {
-            ser->send(m->return_cmd_p());
         }
     }
 
