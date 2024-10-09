@@ -18,6 +18,9 @@ set(serial_SRCS
     include/robot_node.h
     src/lively_serial.cc
     src/hardware/motor.cc
+    src/hardware/canport.cc
+    src/hardware/canboard.cc
+    src/hardware/robot.cc
 )
 
 generate_dynamic_reconfigure_options(

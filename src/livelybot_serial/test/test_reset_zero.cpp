@@ -20,11 +20,10 @@ int main(int argc, char **argv)
     ros::Duration(1.5).sleep();  // 延时，方便查看结果的，可去掉
     while (ros::ok()) // 此用法为逐个电机发送控制指令
     {
-        /////////////////////////send
         int num = 0;
         for (motor *m : rb.Motors)
         {   
-            printf("Motrs[%2.0d]: pos %f, vel %f, tqe %f\n", num++, m->get_current_motor_state()->position, m->get_current_motor_state()->velocity, m->get_current_motor_state()->torque);
+            printf("Motrs[%02d]: pos %f, vel %f, tqe %f\n", num++, m->get_current_motor_state()->position, m->get_current_motor_state()->velocity, m->get_current_motor_state()->torque);
             rb.send_get_motor_state_cmd();
         }
         rb.motor_send_2();
