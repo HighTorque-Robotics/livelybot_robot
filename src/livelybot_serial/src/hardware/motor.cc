@@ -1,4 +1,4 @@
-#include "../../include/hardware/motor.h"
+#include "hardware/motor.h"
 
 
 motor::motor(int _motor_num, int _CANport_num, int _CANboard_num, cdc_tr_message_s *_p_cdc_tx_message, int _id_max)

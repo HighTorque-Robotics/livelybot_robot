@@ -125,10 +125,33 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+## Declare a C++ library
+# add_library(${PROJECT_NAME}
+#   src/${PROJECT_NAME}/livelybot_oled.cpp
+# )
+
+## Add cmake target dependencies of the library
+## as an example, code may need to be generated before libraries
+## either from message generation or dynamic reconfigure
+# add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+## Declare a C++ executable
+## With catkin_make all packages are built within a single CMake context
+## The recommended prefix ensures that target names across packages don't collide
+# add_executable(${PROJECT_NAME}_node src/livelybot_oled_node.cpp)
+# set(OLED_NODE_FILE
+#     src/sensor_actuator_status.cpp
+#     src/ip_addr.cpp
+#     src/oled_interface.cpp
+# )
+
 find_library(SERIALPORT_LIBRARY serialport)
 if(NOT SERIALPORT_LIBRARY)
   message(FATAL_ERROR "libserialport not found")
 endif()
+
+# add_library(livelybot_oled STATIC ${OLED_NODE_FILE})
+# target_link_libraries(livelybot_oled ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 
 link_directories(lib)
 

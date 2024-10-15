@@ -1,4 +1,4 @@
-#include "../include/lively_serial.h"
+#include "lively_serial.h"
 
 
 lively_serial::lively_serial(std::string *port, uint32_t baudrate)

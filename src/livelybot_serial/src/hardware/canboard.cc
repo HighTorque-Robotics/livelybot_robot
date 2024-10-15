@@ -1,4 +1,4 @@
-#include "../../include/hardware/canboard.h"
+#include "hardware/canboard.h"
 
 
 canboard::canboard(int _CANboard_ID, std::vector<lively_serial *> *ser)

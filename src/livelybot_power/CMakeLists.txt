@@ -124,14 +124,27 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+## Declare a C++ library
+# add_library(livelybot_can_power STATIC src/livelybot_can_driver.cpp src/livelybot_power.cpp)
+# add_dependencies(livelybot_can_power ${catkin_EXPORTED_TARGETS} livelybot_power_gencpp)
+# target_link_libraries(livelybot_can_power pthread ${catkin_LIBRARIES})
+
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
 # add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 link_directories(lib)
-
+## Declare a C++ executable
+## With catkin_make all packages are built within a single CMake context
+## The recommended prefix ensures that target names across packages don't collide
+# add_executable(${PROJECT_NAME}_node src/livelybot_power_node.cpp)
 add_executable(power_node src/power_class.cpp)
 add_dependencies(power_node ${catkin_EXPORTED_TARGETS} livelybot_power_gencpp)
+## Rename C++ executable without prefix
+## The above recommended prefix causes long target names, the following renames the
+## target back to the shorter version for ease of user use
+## e.g. "rosrun someones_pkg node" instead of "rosrun someones_pkg someones_pkg_node"
+# set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX "")
 if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
   target_link_libraries(power_node liblivelybot_can_power_arm64.a pthread ${catkin_LIBRARIES} )
 elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64")

@@ -1,6 +1,6 @@
 #include <ros/ros.h>
 #include <sensor_msgs/JointState.h>
-#include "robot_node.h"
+// #include "robot_node.h"
 
 int main(int argc, char** argv)
 {
