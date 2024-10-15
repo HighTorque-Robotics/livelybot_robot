@@ -1,12 +1,11 @@
 #ifndef _SERIAL_STRUCT_H_
 #define _SERIAL_STRUCT_H_
 #include <stdint.h>
-#include "motor_struct.h"
 #include "crc/crc16.h"
 #include "crc/crc8.h"
 
 
-#define  CDC_TR_MESSAGE_DATA_LEN  256
+#define  CDC_TR_MESSAGE_DATA_LEN    256
 
 
 #define  MODE_POSITION              0X80
@@ -30,47 +29,10 @@
 #define  MODE_SET_NUM               0X05  // 设置通道电机数量，并查询固件版本
 #define  MODE_MOTOR_STATE           0X06  // 电机状态
 #define  MODE_CONF_LOAD             0X07  // 还原设置（从flash重新加载设置）
-#define  MODE_RESET           0X08  // 电机重启
+#define  MODE_RESET                 0X08  // 电机重启
+#define  MODE_RUNZERO               0X09  // 上电自动回零
 
 
-/* struct */
-#pragma pack(1)
-typedef struct cdc_acm_tx_message_struct
-{
-    uint8_t head[2]; // 0xFD 0xFE
-    motor_back_raw_t motor_back_raw;
-    uint16_t crc16;
-} cdc_acm_tx_message_t;
-
-typedef struct cdc_acm_rx_message_struct
-{
-    uint8_t head[2]; // 0xFE 0xFD
-    motor_cmd_t motor_cmd;
-    uint16_t crc16;
-} cdc_acm_rx_message_t;
-
-#pragma pack()
-/* class*/
-#pragma pack(1)
-typedef struct
-{
-    uint8_t head; //1
-    uint8_t cmd; //1
-    uint16_t data_len; //2
-    uint8_t CRC8;  //1
-}SOF_t; //5
-typedef struct
-{
-    uint8_t id;
-    int16_t pos;
-    int16_t val;
-    int16_t tqe;
-}motor_state_t;
-typedef struct
-{
-    motor_state_t motor_state[6];
-}motor_state_6_t;
-#pragma pack()
 #pragma pack(1)
 
 typedef struct 
@@ -169,6 +131,15 @@ typedef struct
     cdc_tr_message_data_s data;
 } cdc_tr_message_s;
 
+
+typedef struct motor_back_struct
+{
+    double time;
+    uint8_t ID;
+    float position;
+    float velocity;
+    float torque;
+} motor_back_t;
 
 #pragma pack()
 

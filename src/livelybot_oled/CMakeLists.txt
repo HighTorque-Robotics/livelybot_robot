@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(livelybot_oled)
 
+
+message(${CMAKE_HOST_SYSTEM_PROCESSOR})
+
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
 
@@ -13,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   serial  
   livelybot_msg  
+  livelybot_power
 )
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -117,29 +121,8 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  include
   ${catkin_INCLUDE_DIRS}
-)
-
-## Declare a C++ library
-# add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/livelybot_oled.cpp
-# )
-
-## Add cmake target dependencies of the library
-## as an example, code may need to be generated before libraries
-## either from message generation or dynamic reconfigure
-# add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Declare a C++ executable
-## With catkin_make all packages are built within a single CMake context
-## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/livelybot_oled_node.cpp)
-set(OLED_NODE_FILE
-    src/sensor_actuator_status.hpp 
-    src/sensor_actuator_status.cpp
-    src/ip_addr.hpp
-    src/ip_addr.cpp
 )
 
 find_library(SERIALPORT_LIBRARY serialport)
@@ -147,7 +130,21 @@ if(NOT SERIALPORT_LIBRARY)
   message(FATAL_ERROR "libserialport not found")
 endif()
 
-add_executable(livelybot_oled_node src/oled_run.cpp ${OLED_NODE_FILE})
+link_directories(lib)
+
+add_executable(livelybot_oled_node src/oled_run.cpp)
+if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
+  target_link_libraries(livelybot_oled_node liblivelybot_oled_arm64.a ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
+elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64")
+  target_link_libraries(livelybot_oled_node liblivelybot_oled_x86_64.a ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
+endif()
+
+add_executable(livelybot_oled_hd_test src/oled_hardware_test.cpp)
+if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
+  target_link_libraries(livelybot_oled_hd_test liblivelybot_oled_arm64.a ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
+elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64")
+  target_link_libraries(livelybot_oled_hd_test liblivelybot_oled_x86_64.a ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
+endif()
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -163,7 +160,7 @@ add_executable(livelybot_oled_node src/oled_run.cpp ${OLED_NODE_FILE})
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
-target_link_libraries(livelybot_oled_node ${catkin_LIBRARIES})
+
 
 #############
 ## Install ##

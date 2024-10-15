@@ -11,6 +11,7 @@ int main(int argc, char **argv)
     ros::NodeHandle n;
     ros::Rate r(100);
     livelybot_serial::robot rb;
+    //rb.set_motor_runzero();     // 电机上电自动回零
     const int motor_num = rb.Motors.size();
     ROS_INFO("ALL Motor: %d\n", motor_num);
     ROS_INFO("\033[1;32mSTART\033[0m");

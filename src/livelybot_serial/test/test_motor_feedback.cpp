@@ -1,6 +1,6 @@
 #include "ros/ros.h"
-#include "../include/serial_struct.h"
-#include "../include/hardware/robot.h"
+#include "serial_struct.h"
+#include "hardware/robot.h"
 #include <iostream>
 #include <thread>
 #include <condition_variable>
@@ -12,6 +12,7 @@ int main(int argc, char **argv)
     ros::NodeHandle n;
     ros::Rate r(300);
     livelybot_serial::robot rb;
+    //rb.set_motor_runzero();     // 电机上电自动回零
     ROS_INFO("\033[1;32mSTART\033[0m");
     // ========================== singlethread send =====================
     int count = 0;
