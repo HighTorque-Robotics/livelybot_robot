@@ -43,7 +43,7 @@ include_directories(
 
 # add_library(livelybot_serial SHARED ${serial_SRCS})
 # add_dependencies(livelybot_serial ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
-# target_link_libraries(livelybot_serial rt pthread ${SERIALPORT_LIBRARY})
+# target_link_libraries(livelybot_serial ${catkin_LIBRARIES} rt pthread ${SERIALPORT_LIBRARY})
 
 link_directories(lib)
 
