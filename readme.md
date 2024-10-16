@@ -37,6 +37,7 @@
     catkin_make
     ```
 
+* 注意：在外部功能包使用本功能包时，需要在`Cmakelists.txt`的`target_link_libraries`中添加`livelybot_serial_xx.so`,此文件在`livelybot_serial/lib`。
 ### 四、测试
 
 1. IMU设备测试
