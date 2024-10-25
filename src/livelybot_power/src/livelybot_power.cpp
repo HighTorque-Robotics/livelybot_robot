@@ -26,7 +26,6 @@ void Power_Board::run(ros::NodeHandle &n)
     can_handler.start_callback(can_recv_parse);
     while (ros::ok())
     {
-        ROS_INFO("SSSS");
         r.sleep();
         ros::spinOnce();
     }

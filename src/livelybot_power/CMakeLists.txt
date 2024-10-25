@@ -90,7 +90,7 @@ include_directories(
 )
 
 ## Declare a C++ library
-# add_library(livelybot_can_power SHARED src/livelybot_can_driver.cpp src/livelybot_power.cpp)
+# add_library(livelybot_can_power STATIC src/livelybot_can_driver.cpp src/livelybot_power.cpp)
 # add_dependencies(livelybot_can_power ${catkin_EXPORTED_TARGETS} livelybot_power_gencpp)
 # target_link_libraries(livelybot_can_power pthread ${catkin_LIBRARIES})
 
@@ -111,7 +111,7 @@ add_dependencies(power_node ${catkin_EXPORTED_TARGETS} livelybot_power_gencpp)
 ## e.g. "rosrun someones_pkg node" instead of "rosrun someones_pkg someones_pkg_node"
 # set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX "")
 if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
-  target_link_libraries(power_node liblivelybot_can_power_arm64.so pthread ${catkin_LIBRARIES} )
+  target_link_libraries(power_node liblivelybot_can_power_arm64.a pthread ${catkin_LIBRARIES} )
 elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64")
   target_link_libraries(power_node liblivelybot_can_power_x86_64.so pthread ${catkin_LIBRARIES} )
 endif()

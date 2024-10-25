@@ -21,10 +21,10 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES livelybot_oled
-#  CATKIN_DEPENDS roscpp sensor_msgs std_msgs
-#  DEPENDS system_lib
+  INCLUDE_DIRS include
+  # LIBRARIES livelybot_oled
+  CATKIN_DEPENDS roscpp sensor_msgs std_msgs
+  # DEPENDS system_lib
 )
 
 
@@ -47,14 +47,14 @@ if(NOT SERIALPORT_LIBRARY)
   message(FATAL_ERROR "libserialport not found")
 endif()
 
-# add_library(livelybot_oled SHARED ${OLED_NODE_FILE})
+# add_library(livelybot_oled STATIC ${OLED_NODE_FILE})
 # target_link_libraries(livelybot_oled ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 
 link_directories(lib)
 
 add_executable(livelybot_oled_node src/oled_run.cpp)
 if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
-  target_link_libraries(livelybot_oled_node liblivelybot_oled_arm64.so ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
+  target_link_libraries(livelybot_oled_node liblivelybot_oled_arm64.a ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64")
   target_link_libraries(livelybot_oled_node liblivelybot_oled_x86_64.so ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 endif()
