@@ -1,7 +1,7 @@
 #include <cstdint>
 
 #define LO_NET      "lo"
-#define ETHERNET    "eth0"
+#define ETHERNET    "enp86s0"
 #define WLAN        "p2p0"
 
 void update_ip_addr(void);

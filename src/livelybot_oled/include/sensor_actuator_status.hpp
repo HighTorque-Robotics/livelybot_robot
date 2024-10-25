@@ -7,6 +7,8 @@
 #include <pthread.h>
 #include <vector>
 
+#define OLED_UART_DEV_NAME "/dev/ttyUSB0"
+
 typedef struct
 {
     bool imu_con_sta;

@@ -113,7 +113,7 @@ add_dependencies(power_node ${catkin_EXPORTED_TARGETS} livelybot_power_gencpp)
 if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
   target_link_libraries(power_node liblivelybot_can_power_arm64.a pthread ${catkin_LIBRARIES} )
 elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64")
-  target_link_libraries(power_node liblivelybot_can_power_x86_64.so pthread ${catkin_LIBRARIES} )
+  target_link_libraries(power_node liblivelybot_can_power_x86_64.a pthread ${catkin_LIBRARIES} )
 endif()
 
 # add_executable(power_node2 src/power_class.cpp)
