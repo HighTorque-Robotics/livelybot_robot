@@ -37,7 +37,6 @@
     catkin_make
     ```
 
-* 注意：在外部功能包使用本功能包时，需要在`Cmakelists.txt`的`target_link_libraries`中添加`livelybot_serial_xx.so`,此文件在`livelybot_serial/lib`。
 ### 四、测试
 
 1. IMU设备测试
@@ -78,11 +77,12 @@
 6. 查看IMU姿态数据：`rostopic echo /yesense/sensor_data`；
 7. 如果需要图形化界面，运行：`roslaunch yesense_imu yesense_rviz.launch`，可以通过RVIZ界面观察IMU的姿态。
 
-### 六、电机控制
+### 六、电机控制<span id="motor_control"></span>
 1. 连接主控板，查看主控板在系统的设备名称：`ls /dev`，一般为`ttyACM*`或者`ttyUSB*`；
 2. 添加设备权限：`sudo chmod -R 777 /dev/ttyACM*`或`sudo chmod -R 777 /dev/ttyACM*`；
 3. 编写配置文件，命名和内容参考：
     `lively_description/robot_param/6dof_STM32H730_model_test_Orin_params.yaml`；
+    * 更多可参考[yaml配置文件说明](./doc/yaml配置文件说明.md)
 4. 创建机器人对象：`livelybot_serial::robot rb`;
 5. `rb`的成员变量`Motors`为存放电机对象的容器，包含配置文件描述的所有电机的对象，电机在容器中的位置顺序为`canport0`的一号、二号、三号电机，依次类推，然后是`canport1`的一号、二号、三号电机，依次类推，依次是`canport3`、`canport4`（如果有点话），依次类推；
 6. 获取电机对象:
@@ -122,7 +122,7 @@
     } motor_back_t;
     ```
 
-### 八、使用例程
+### 八、使用例程<span id="motor_use_sample"></span>
 
 1. 电机控制示例代码：
     ```
@@ -137,7 +137,7 @@
 ### 九、电机保护功能
 
 1. 位置保护
-    * 设置配置文件在`motorX`标签下添加`pos_upper`和`pos_lower`参数，分别表示位置上限和下限，添加`pos_limit_enable`参数，表示是否开启位置保护；
+    * 设置配置文件在`motor*`标签下添加`pos_upper`和`pos_lower`参数，分别表示位置上限和下限，添加`pos_limit_enable`参数，表示是否开启位置保护；
     * 设置示例如下：
     ```
     motor1:
@@ -152,7 +152,7 @@
     * 上述示例中，`pos_limit_enable`为1， 表示开启位置保护，`pos_upper`和`pos_lower`分别为10和-10，表示位置上限和下限；
 
 2. 扭矩保护
-    * 设置配置文件在`motorX`标签下添加`tor_upper`和`tor_lower`参数，分别表示位置上限和下限，添加`tor_limit_enable`参数，表示是否开启位置保护；
+    * 设置配置文件在`motor*`标签下添加`tor_upper`和`tor_lower`参数，分别表示位置上限和下限，添加`tor_limit_enable`参数，表示是否开启位置保护；
     * 设置示例如下：
     ```
     motor1:
@@ -164,4 +164,45 @@
         tor_upper: 5
         tor_lower: -3
     ```
-    * 上述示例中，`tor_limit_enable`为1， 表示开启扭矩保护，`tor_upper`和`tor_lower`分别为5和-3，表示位置上限和下限；
+    * 上述示例中，`tor_limit_enable`为1， 表示开启扭矩保护，`tor_upper`和`tor_lower`分别为5和-3，表示位置上限和下限。
+
+
+### 十、控制机器人
+
+1. 编写或使用yaml配置文件，参考`lively_description/robot_param/6dof_STM32H730_model_test_Orin_params.yaml`和[yaml配置文件说明](./doc/yaml配置文件说明.md)；
+2. 编写一个具有robot类的ros节点，用于控制电机和获取电机状态，参考[电机控制](#motor_control)或[使用例程](#motor_use_sample)；
+3. 编写一个引入yaml配置文件和启动步骤2中节点的launch文件，参考[机器人launch文件说明](./doc/机器人launch文件说明.md)；
+4. 给串口赋予`读-写-执行`权限；
+    ```
+    sudo chmod -R 777 /dev/ttyACM*
+    ```
+5. 启动launch文件。
+
+### 十一、软件开关机
+
+功率板除了通过硬件开关机外，还可以通过CAN发送命令进行开关机。再SDK钟这个功能已经封装成ROS话题，用户可以通过话题`/power_switch_control`发送开关机命令（由功率板供电的设备只能发送关机指令）。
+
+使用例程如下：
+```
+// ...
+#include <livelybot_power/Power_switch.h>
+// ...
+int main(int argc, char **argv)
+{
+    ros::init(argc, argv, "power_switch_control");
+    ros::NodeHandle nh;
+    ros::Publisher pub = nh.advertise<livelybot_power::Power_switch>("/power_switch_control", 10);
+    livelybot_power::Power_switch msg;
+    while(ros::ok())
+    {
+        msg.control_switch = 0; // 主控供电开关
+        msg.power_switch = 0;  // 电机供电开关
+        pub.publish(msg);
+        ros::Duration(1).sleep();
+        ros::spinOnce();
+    }
+}
+```
+
+`livelybot_power::Power_switch`类型中`control_switch`为0表示断开主控供电，为1表示接通主控供电；`power_switch`为0表示断开电机供电，为1表示接通电机供电。
+

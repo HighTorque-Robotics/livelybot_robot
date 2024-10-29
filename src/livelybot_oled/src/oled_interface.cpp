@@ -50,7 +50,7 @@ void oled_mission(ros::NodeHandle &n)
     {
         ROS_ERROR("Faile to get params can_port_num");
     }
-
+    ROS_INFO("all_motor_num: %d", motor_num[0]+motor_num[1]+motor_num[2]+motor_num[3]);
     // 创建电机status的对象
     status = new Sensor_actuator_status(motor_num[0], motor_num[1], motor_num[2], motor_num[3]);
 
@@ -105,8 +105,10 @@ void imu_callback(const sensor_msgs::Imu::ConstPtr& data) {
 
 void motor_callback(const sensor_msgs::JointState& data)
 {
-    unsigned char motor_status[12] = {1,0,1,0,1,1,0,1,1,0,0,1};
-    for(int i = 0; i < 12; i++)
+    unsigned char motor_status[64] = {1,0,1,0,1,1,0,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0};
+    int all_motor_num;
+    all_motor_num = motor_num[0] + motor_num[1] + motor_num[2] + motor_num[3];
+    for(int i = 0; i < all_motor_num; i++)
     {
         if(data.position[i] < -900.0)
         {
