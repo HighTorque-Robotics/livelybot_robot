@@ -36,32 +36,32 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-# set(OLED_NODE_FILE
-#     src/sensor_actuator_status.cpp
-#     src/ip_addr.cpp
-#     src/oled_interface.cpp
-# )
+set(OLED_NODE_FILE
+    src/sensor_actuator_status.cpp
+    src/ip_addr.cpp
+    src/oled_interface.cpp
+)
 
 find_library(SERIALPORT_LIBRARY serialport)
 if(NOT SERIALPORT_LIBRARY)
   message(FATAL_ERROR "libserialport not found")
 endif()
 
-# add_library(livelybot_oled STATIC ${OLED_NODE_FILE})
-# target_link_libraries(livelybot_oled ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
+add_library(livelybot_oled STATIC ${OLED_NODE_FILE})
+target_link_libraries(livelybot_oled ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 
 link_directories(lib)
 
 add_executable(livelybot_oled_node src/oled_run.cpp)
 if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
-  target_link_libraries(livelybot_oled_node liblivelybot_oled_arm64.a ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
+  target_link_libraries(livelybot_oled_node livelybot_oled ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64")
   target_link_libraries(livelybot_oled_node liblivelybot_oled_x86_64.a ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 endif()
 
 add_executable(livelybot_oled_hd_test src/oled_hardware_test.cpp)
 if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
-  target_link_libraries(livelybot_oled_hd_test liblivelybot_oled_arm64.a ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
+  target_link_libraries(livelybot_oled_hd_test livelybot_oled ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64")
   target_link_libraries(livelybot_oled_hd_test liblivelybot_oled_x86_64.a ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 endif()

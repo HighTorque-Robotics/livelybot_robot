@@ -10,6 +10,8 @@
 #include <std_msgs/Int32.h>
 #include <tf/transform_datatypes.h>
 #include "ip_addr.hpp"
+#include <thread>
+#include <chrono>
 
 #define _2PI_ 6.2831853
 
@@ -28,7 +30,7 @@ void fsm_state_callback(const std_msgs::Int32::ConstPtr& msg);
 
 void oled_mission(ros::NodeHandle &n)
 {
-    ros::Rate r(10.0);   
+    ros::Rate r(5.0);   
     // 获取配置参数，CAN线与电机数量
     if (n.getParam("robot/CANboard/No_" + std::to_string(1) + "_CANboard/CANport_num", can_port_num))
     {
@@ -72,6 +74,7 @@ void oled_mission(ros::NodeHandle &n)
             update_ip_addr();
         }
         status->send_ip_addr(get_ip_data_u32_all(), 3);
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
         if(imu_flag)
         {
             status->send_imu_status(0, rpy);
@@ -100,6 +103,7 @@ void imu_callback(const sensor_msgs::Imu::ConstPtr& data) {
     rpy[1] = pitch;
     rpy[2] = yaw;
     status->send_imu_status(1, rpy);
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
     imu_flag = 0;
 }
 
@@ -120,16 +124,19 @@ void motor_callback(const sensor_msgs::JointState& data)
         }
     }
     status->send_motor_status(motor_status);
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
 
 void battery_voltage_callback(const std_msgs::Float32::ConstPtr& msg)
 {
     ROS_INFO("receive voltage:%f", msg->data);
     status->send_battery_volt(msg->data);
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
 
 void fsm_state_callback(const std_msgs::Int32::ConstPtr& msg)
 {
     ROS_INFO("receive fsm_state:%d", msg->data);
     status->send_fsm_state(msg->data);
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }

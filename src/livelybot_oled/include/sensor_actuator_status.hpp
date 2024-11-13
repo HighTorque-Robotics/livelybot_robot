@@ -7,7 +7,7 @@
 #include <pthread.h>
 #include <vector>
 
-#define OLED_UART_DEV_NAME "/dev/ttyUSB0"
+#define OLED_UART_DEV_NAME "/dev/ttyACM"
 
 typedef struct
 {
@@ -40,5 +40,7 @@ public:
     void send_ip_addr(unsigned int* ip_data, unsigned char len);
     void send_battery_volt(float volt);
     void send_fsm_state(int32_t fsm_state);
+    int serial_pid_vid(const char *name);
+    std::vector<std::string> list_serial_ports(const std::string& full_prefix);
 };
 

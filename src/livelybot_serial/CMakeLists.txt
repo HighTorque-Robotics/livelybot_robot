@@ -90,6 +90,13 @@ elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64")
   target_link_libraries(test_motor_run liblivelybot_serial_x86_64.so ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 endif()
 
+add_executable(test_jump test/test_jump.cpp)
+if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
+  target_link_libraries(test_jump liblivelybot_serial_arm64.so ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
+elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64")
+  target_link_libraries(test_jump liblivelybot_serial_x86_64.so ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
+endif()
+
 add_executable(test_reconfigure test/test_reconfigure.cpp)
 if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
   target_link_libraries(test_reconfigure liblivelybot_serial_arm64.so ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
