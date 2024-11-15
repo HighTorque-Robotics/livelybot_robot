@@ -30,7 +30,7 @@ void fsm_state_callback(const std_msgs::Int32::ConstPtr& msg);
 
 void oled_mission(ros::NodeHandle &n)
 {
-    ros::Rate r(5.0);   
+    ros::Rate r(10.0);   
     // 获取配置参数，CAN线与电机数量
     if (n.getParam("robot/CANboard/No_" + std::to_string(1) + "_CANboard/CANport_num", can_port_num))
     {
@@ -129,14 +129,14 @@ void motor_callback(const sensor_msgs::JointState& data)
 
 void battery_voltage_callback(const std_msgs::Float32::ConstPtr& msg)
 {
-    ROS_INFO("receive voltage:%f", msg->data);
+    // ROS_INFO("receive voltage:%f", msg->data);
     status->send_battery_volt(msg->data);
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
 
 void fsm_state_callback(const std_msgs::Int32::ConstPtr& msg)
 {
-    ROS_INFO("receive fsm_state:%d", msg->data);
+    // ROS_INFO("receive fsm_state:%d", msg->data);
     status->send_fsm_state(msg->data);
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }

@@ -12,13 +12,13 @@ find_package(catkin REQUIRED COMPONENTS
 
 set(rt_LIBRARIES rt)
 set(pthread_LIBRARIES pthread)
-# set(serial_SRCS
-#     src/lively_serial.cc
-#     src/hardware/motor.cc
-#     src/hardware/canport.cc
-#     src/hardware/canboard.cc
-#     src/hardware/robot.cc
-# )
+set(serial_SRCS
+    src/lively_serial.cc
+    src/hardware/motor.cc
+    src/hardware/canport.cc
+    src/hardware/canboard.cc
+    src/hardware/robot.cc
+)
 
 
 generate_dynamic_reconfigure_options(
@@ -41,9 +41,9 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-# add_library(livelybot_serial SHARED ${serial_SRCS})
-# add_dependencies(livelybot_serial ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
-# target_link_libraries(livelybot_serial ${catkin_LIBRARIES} rt pthread ${SERIALPORT_LIBRARY})
+add_library(livelybot_serial SHARED ${serial_SRCS})
+add_dependencies(livelybot_serial ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
+target_link_libraries(livelybot_serial ${catkin_LIBRARIES} rt pthread ${SERIALPORT_LIBRARY})
 
 link_directories(lib)
 

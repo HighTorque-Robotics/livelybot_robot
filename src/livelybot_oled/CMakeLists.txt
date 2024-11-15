@@ -56,14 +56,14 @@ add_executable(livelybot_oled_node src/oled_run.cpp)
 if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
   target_link_libraries(livelybot_oled_node livelybot_oled ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64")
-  target_link_libraries(livelybot_oled_node liblivelybot_oled_x86_64.a ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
+  target_link_libraries(livelybot_oled_node livelybot_oled ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 endif()
 
 add_executable(livelybot_oled_hd_test src/oled_hardware_test.cpp)
 if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
   target_link_libraries(livelybot_oled_hd_test livelybot_oled ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64")
-  target_link_libraries(livelybot_oled_hd_test liblivelybot_oled_x86_64.a ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
+  target_link_libraries(livelybot_oled_hd_test livelybot_oled ${catkin_LIBRARIES} ${SERIALPORT_LIBRARY})
 endif()
 
 ## Rename C++ executable without prefix
