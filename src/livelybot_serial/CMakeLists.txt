@@ -26,7 +26,7 @@ generate_dynamic_reconfigure_options(
 )
 
 catkin_package(
-    # LIBRARIES ${PROJECT_NAME}
+    LIBRARIES ${PROJECT_NAME}
     INCLUDE_DIRS include
     DEPENDS rt pthread
     CATKIN_DEPENDS roscpp std_msgs livelybot_msg serial dynamic_reconfigure
