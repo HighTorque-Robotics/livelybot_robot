@@ -12,12 +12,12 @@ int main(int argc, char** argv)
     uint32_t ip_addr[3] = {345735, 837438, 998877};
     uint8_t fsm_status = 0;
     float battery = 23.2f;
-  
+    uint8_t produce_data[] = "HIB20241206999";
+    
     std::clock_t delay = 0.1 * CLOCKS_PER_SEC;
     std::clock_t start = std::clock();
     while(true)
     {
-
         // IMU
         status.send_imu_status(true, imu);
         start = std::clock();
@@ -36,9 +36,12 @@ int main(int argc, char** argv)
         while(std::clock() - start < 0.1*delay);
         // Robot State
         status.send_fsm_state(fsm_status);
-        
         start = std::clock();
         while(std::clock() - start < delay);
+        // Robot Produce
+        status.send_produce_state(produce_data,14);
+        start = std::clock();
+        while(std::clock() - start < 0.1*delay);
 
         std::cout << "Send" << std::endl;
     }

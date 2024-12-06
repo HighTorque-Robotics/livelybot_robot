@@ -123,6 +123,27 @@ void Sensor_actuator_status::send_fsm_state(int32_t fsm_state)
     this->_ser.write(this->send_buff, this->send_buff[2] + 6);
 }
 
+void Sensor_actuator_status::send_produce_state(unsigned char *produce_data,unsigned char len)
+{
+    this->send_buff[0] = 0xA5;
+    this->send_buff[1] = 0x5A;
+    this->send_buff[2] = 0x0F;
+    this->send_buff[3] = 0x20;
+    memcpy(&this->send_buff[4], produce_data, len);
+    
+    for(int i=0; i<14; i++)
+    {
+        //16进制的方式打印到屏幕
+        std::cout << std::hex << (send_buff[i+4] & 0xff)<<" ";
+    }
+    std::cout << std::endl;
+    
+    this->send_buff[this->send_buff[2] + 3] = 0x66;
+    this->send_buff[this->send_buff[2] + 4] = 0x47;
+    this->send_buff[this->send_buff[2] + 5] = 0x74;
+    this->_ser.write(this->send_buff, this->send_buff[2] + 6);
+}
+
 int Sensor_actuator_status::serial_pid_vid(const char *name)
 {
     int pid, vid;

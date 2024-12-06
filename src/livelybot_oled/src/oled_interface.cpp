@@ -12,6 +12,8 @@
 #include "ip_addr.hpp"
 #include <thread>
 #include <chrono>
+#include <fstream>
+
 
 #define _2PI_ 6.2831853
 
@@ -22,11 +24,14 @@ float rpy[3];
 
 int can_port_num;
 int motor_num[4];
+uint8_t produce_data_txt[14];
 
 void imu_callback(const sensor_msgs::Imu::ConstPtr& data);
 void motor_callback(const sensor_msgs::JointState& data);
 void battery_voltage_callback(const std_msgs::Float32::ConstPtr& msg);
 void fsm_state_callback(const std_msgs::Int32::ConstPtr& msg);
+
+void read_produce_txt(uint8_t *produce_data_txt);
 
 void oled_mission(ros::NodeHandle &n)
 {
@@ -63,6 +68,7 @@ void oled_mission(ros::NodeHandle &n)
     ros::Subscriber fsm_state_sub = n.subscribe("/fsm_state", 1, fsm_state_callback);
     int i = 0;
     update_ip_addr();
+    read_produce_txt(produce_data_txt);
     while(ros::ok())
     {
         r.sleep();
@@ -73,6 +79,7 @@ void oled_mission(ros::NodeHandle &n)
             i = 0;
             update_ip_addr();
         }
+        status->send_produce_state(produce_data_txt,14);
         status->send_ip_addr(get_ip_data_u32_all(), 3);
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         if(imu_flag)
@@ -140,3 +147,26 @@ void fsm_state_callback(const std_msgs::Int32::ConstPtr& msg)
     status->send_fsm_state(msg->data);
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
+
+void read_produce_txt(uint8_t *produce_data_txt)
+{
+    const int line_length = 14+1; //包含14个字符 + 1个'\0'（终止符）
+    char line[line_length]; //创建一个字符数组用于存储读取的行
+    std::ifstream inputFile("/home/yh/workspace01/src/livelybot_robot/doc/robot_code.txt");//robot_code.txt的路径（不同用户路径可能不一样）
+    if (!inputFile)
+    {
+        std::cerr << "无法打开文件!" << std::endl;
+    }
+    // 读取文件中的一行
+    if (inputFile.getline(line, line_length))
+    {
+        std::cout << "读取的行: " << line << std::endl; //打印提取的行
+    }
+    else
+    {
+        std::cerr << "没有读取到任何行!" << std::endl;
+    }
+    inputFile.close(); //关闭文件
+    memcpy(produce_data_txt, line, 14); //截取有效字节
+}
+
