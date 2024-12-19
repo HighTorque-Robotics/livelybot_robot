@@ -152,7 +152,7 @@ void read_produce_txt(uint8_t *produce_data_txt)
 {
     const int line_length = 14+1; //包含14个字符 + 1个'\0'（终止符）
     char line[line_length]; //创建一个字符数组用于存储读取的行
-    std::ifstream inputFile("/home/yh/workspace01/src/livelybot_robot/doc/robot_code.txt");//robot_code.txt的路径（不同用户路径可能不一样）
+    std::ifstream inputFile("/opt/doc/robot_code.txt");//robot_code.txt的路径（和工作空间文件夹同级的文件夹doc）
     if (!inputFile)
     {
         std::cerr << "无法打开文件!" << std::endl;

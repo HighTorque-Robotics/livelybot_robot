@@ -131,7 +131,7 @@ void Sensor_actuator_status::send_produce_state(unsigned char *produce_data,unsi
     this->send_buff[3] = 0x20;
     memcpy(&this->send_buff[4], produce_data, len);
     
-    for(int i=0; i<14; i++)
+    for(int i=0; i<len; i++)
     {
         //16进制的方式打印到屏幕
         std::cout << std::hex << (send_buff[i+4] & 0xff)<<" ";
