@@ -83,10 +83,11 @@ public:
     void torque(float torque);
     void voltage(float voltage);
     void current(float current);
+    void set_motorout(int16_t t_ms);
     void pos_vel_MAXtqe(float position, float velocity, float torque_max);
     void pos_vel_tqe_kp_kd(float position, float velocity, float torque, float Kp, float Kd);
     void pos_vel_kp_kd(float position, float velocity, float Kp, float Kd);
-    void pos_val_acc(float position, float velocity, float acc);
+    void pos_vel_acc(float position, float velocity, float acc);
     void pos_vel_rkp_rkd(float position, float velocity, float rKp, float rKd);
     void pos_vel_kp_ki_kd(float position, float velocity, float torque, float kp, float ki, float kd);
     void pos_vel_tqe_rkp_rkd(float position, float velocity, float torque, float rKp, float rKd);

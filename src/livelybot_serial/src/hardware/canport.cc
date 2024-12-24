@@ -391,6 +391,25 @@ void canport::send_get_motor_state_cmd()
 }
 
 
+void canport::set_time_out(int16_t t_ms)
+{
+    if (cdc_tr_message.head.s.cmd != MODE_TIME_OUT)
+    {
+        cdc_tr_message.head.s.head = 0XF7;
+        cdc_tr_message.head.s.cmd = MODE_TIME_OUT;
+        cdc_tr_message.head.s.len = motor_num * 2;
+        memset(&cdc_tr_message.data, 0, cdc_tr_message.head.s.len);
+    }
+
+    for (int i = 0; i < motor_num; i++)
+    {
+        cdc_tr_message.data.timeout[i] = t_ms;
+    }
+    
+    motor_send_2();
+}
+
+
 void canport::puch_motor(std::vector<motor *> *_Motors)
 {
     for (motor *m : Motors)

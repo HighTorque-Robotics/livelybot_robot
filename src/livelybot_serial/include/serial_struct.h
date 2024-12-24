@@ -13,6 +13,7 @@
 #define  MODE_TORQUE                0X82
 #define  MODE_VOLTAGE               0X83
 #define  MODE_CURRENT               0X84
+#define  MODE_TIME_OUT              0x85
 
 #define  MODE_POS_VEL_TQE           0X90
 #define  MODE_POS_VEL_TQE_KP_KD     0X93
@@ -20,6 +21,7 @@
 #define  MODE_POS_VEL_KP_KD         0X9E
 #define  MODE_POS_VEL_TQE_RKP_RKD   0XA3
 #define  MODE_POS_VEL_RKP_RKD       0XA8
+#define  MODE_POS_VEL_ACC           0XAD
 
 
 #define  MODE_RESET_ZERO            0X01  // 重置电机零位
@@ -114,6 +116,7 @@ typedef struct
         int16_t torque[CDC_TR_MESSAGE_DATA_LEN / 2];
         int16_t voltage[CDC_TR_MESSAGE_DATA_LEN / 2];
         int16_t current[CDC_TR_MESSAGE_DATA_LEN / 2];
+        int16_t timeout[CDC_TR_MESSAGE_DATA_LEN / 2];
         motor_pos_val_tqe_s pos_val_tqe[CDC_TR_MESSAGE_DATA_LEN / 6];
         motor_pos_val_tqe_rpd_s pos_val_tqe_rpd[CDC_TR_MESSAGE_DATA_LEN / 10];
         motor_pos_val_tqe_pid_s pos_val_tqe_pid[CDC_TR_MESSAGE_DATA_LEN / 12];

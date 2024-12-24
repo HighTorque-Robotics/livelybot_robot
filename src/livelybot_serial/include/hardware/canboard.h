@@ -26,5 +26,7 @@ public:
     void send_get_motor_state_cmd();
     void set_reset_zero();
     void set_motor_runzero();
+    void set_time_out(int16_t t_ms);
+    void set_time_out(uint8_t portx, int16_t t_ms);
 };
 #endif

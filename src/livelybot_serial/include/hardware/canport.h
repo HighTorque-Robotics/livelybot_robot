@@ -42,6 +42,7 @@ public:
     void set_conf_write();
     int set_conf_write(int id);
     void send_get_motor_state_cmd();
+    void set_time_out(int16_t t_ms);
     void puch_motor(std::vector<motor *> *_Motors);
     void motor_send_2();
     int get_motor_num();

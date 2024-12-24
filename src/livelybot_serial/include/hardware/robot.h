@@ -30,7 +30,7 @@ namespace livelybot_serial
         std::vector<canboard> CANboards;
         std::vector<std::string> str;
         std::vector<lively_serial *> ser;
-        float SDK_version2 = 3.6; // SDK版本
+        float SDK_version2 = 3.7; // SDK版本
         std::atomic<bool> publish_joint_state;
         ros::Publisher joint_state_pub_;
         std::thread pub_thread_;
@@ -72,6 +72,9 @@ namespace livelybot_serial
         void set_reset_zero();
         void set_reset_zero(std::initializer_list<int> motors);
         void set_motor_runzero();
+        void set_timeout(int16_t t_ms);
+        void set_timeout(uint8_t portx, int16_t t_ms);
+        
 
 #ifdef DYNAMIC_CONFIG_ROBOT
         void configCallback(robot_dynamic_config_20Config &config, uint32_t level);

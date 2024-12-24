@@ -111,3 +111,17 @@ void canboard::set_motor_runzero()
 }
 
 
+void canboard::set_time_out(int16_t t_ms)
+{
+    for (canport *c : CANport)
+    {
+        c->set_time_out(t_ms);
+    }
+}
+
+
+void canboard::set_time_out(uint8_t portx, int16_t t_ms)
+{
+    CANport[portx]->set_time_out(t_ms);
+}
+

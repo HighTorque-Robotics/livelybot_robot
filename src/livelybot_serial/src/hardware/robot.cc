@@ -86,6 +86,8 @@ namespace livelybot_serial
         }
         set_port_motor_num(); // 设置通道上挂载的电机数，并获取主控板固件版本号
         chevk_motor_connection();  // 检测电机连接是否正常
+        // set_timeout(5000);  // 设置所有电机的超时时间，单位ms，这里默认给 5s
+        // set_timeout(0, 5000);  // 设置一条 can 通道所有电机的超时时间
 
         publish_joint_state=1;
         joint_state_pub_ = n.advertise<sensor_msgs::JointState>("error_joint_states", 10);
@@ -118,8 +120,8 @@ namespace livelybot_serial
     robot::~robot()
     {
         publish_joint_state=0;
-        set_stop();
-        motor_send_2();
+        // set_stop();
+        // motor_send_2();
         for (auto &thread : ser_recv_threads)
         {
             if (thread.joinable())
@@ -524,6 +526,27 @@ namespace livelybot_serial
         ros::Duration(4).sleep();
     }
 
+
+    void robot::set_timeout(int16_t t_ms)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            for (canboard &cb : CANboards)
+            {
+                cb.set_time_out(t_ms);
+            }
+            ros::Duration(0.01).sleep();
+        }
+    }
+
+    void robot::set_timeout(uint8_t portx, int16_t t_ms)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            CANboards[0].set_time_out(portx, t_ms);
+            ros::Duration(0.01).sleep();
+        }
+    }
 
 #ifdef DYNAMIC_CONFIG_ROBOT
     void robot::configCallback(robot_dynamic_config_20Config &config, uint32_t level)
