@@ -120,8 +120,8 @@ namespace livelybot_serial
     robot::~robot()
     {
         publish_joint_state=0;
-        // set_stop();
-        // motor_send_2();
+        set_stop();
+        motor_send_2();
         for (auto &thread : ser_recv_threads)
         {
             if (thread.joinable())
